@@ -16,7 +16,19 @@ function* outputFields<Context>(fields: SchemaFields<Context>, context: Context,
 
         const field = fields[key]
         if (isFullDeclaration(field)) {
-            yield `${indentation}${key}: ${asMongooseType(field.type, context, indentation)},`
+            yield indentation + key + ': {'
+            const subind = indentation + '  '
+            yield `${subind}type: ${asMongooseType(field.type, context, subind)},`
+            if (field.index === true) {
+                yield `${subind}index: true,`
+            } else if (field.index === 'unique') {
+                yield `${subind}unique: true,`
+            } else if (field.index === 'unique-sparse') {
+                yield `${subind}unique: true,`
+                yield `${subind}sparse: true,`
+            }        
+            yield indentation + '}'
+            
         } else {
             yield `${indentation}${key}: ${asMongooseType(field, context, indentation)},`
         }
