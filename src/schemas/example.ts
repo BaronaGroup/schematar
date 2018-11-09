@@ -28,6 +28,10 @@ const schema: Schema<Context> = {
         password: {
             type: String,
             presentIn: ['mongoose', 'typescript']
+        },
+        favouriteColor: {
+            type: String,
+            enum: ['red', 'blue', 'green', 'other']
         }
     }
 }

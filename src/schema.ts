@@ -21,6 +21,7 @@ export interface FieldInfo<Context> {
     optional?: boolean
     presentIn?: Array<Context>
     optionalIn?: Array<Context>
+    enum?: string[]
 }
 
 export interface SchemaFields<Context = DefaultContext> {

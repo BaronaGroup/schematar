@@ -39,7 +39,11 @@ function isOptional<Context>(field: any, context: Context) {
 
 function* outputFieldFormat<Context>(field: Field<Context>, context: Context, indentation: string) {
     if (isFullDeclaration(field)) {
-        yield asTSType(field.type, context, indentation)
+        if (field.enum) {
+            yield field.enum.map(f => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
+        } else {
+            yield asTSType(field.type, context, indentation)
+        }
         
     } else {
         yield asTSType(field, context, indentation)

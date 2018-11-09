@@ -15,7 +15,8 @@ interface JSONSchemaArrayProperty {
 
 interface JSONSchemaStringProperty {
     type: 'string'
-    pattern?: string
+    pattern?: string,
+    enum?: string[]
 }
 
 type JSONSchemaProperty = JSONSchemaSimpleProperty | JSONSchemaObjectProperty | JSONSchemaStringProperty | JSONSchemaArrayProperty
@@ -73,7 +74,10 @@ function isOptional<Context>(field: any, context: Context) {
 
 function outputFieldFormat<Context>(field: Field<Context>, context: Context) {
     if (isFullDeclaration(field)) {
-        return asJSONSchemaProperty(field.type, context)
+        if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
+        const prop = asJSONSchemaProperty(field.type, context)
+        if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
+        return prop
         
     } else {
         return asJSONSchemaProperty(field, context)

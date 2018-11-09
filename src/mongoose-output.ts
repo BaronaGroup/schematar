@@ -41,6 +41,9 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
             yield `${subind}unique: true,`
             yield `${subind}sparse: true,`
         }        
+        if (field.enum) {
+            yield `${subind}enum: [${field.enum.map(val => "'" + val.replace(/'/g, '\\') + "'").join(', ')}],`
+        }
         yield indentation + '}'
         
     } else {
