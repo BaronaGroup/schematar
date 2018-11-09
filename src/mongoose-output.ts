@@ -2,9 +2,9 @@ import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from 
 import ObjectId from './object-id'
 import Complex from './complex'
 
-export default function<Context>(schema: Schema<Context>, context: DefaultContext | Context = 'mongoose') {
+export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'mongoose') {
     const output: string[] = []
-    output.push('export default const {')
+    output.push(`export const ${exportName} = {`)
     for (const field of outputFields(schema.fields, context as Context, '  ')) output.push(field)
     output.push('}')
     return output.join('\n')
@@ -15,6 +15,8 @@ function* outputFields<Context>(fields: SchemaFields<Context>, context: Context,
         if (key === '_id' || key === '__v') continue
 
         const field = fields[key]
+        const presentIn: Context[] | undefined = (field as any).presentIn
+        if (presentIn && !presentIn.includes(context)) continue
         const ftm = [...outputFieldFormat(field, context, indentation)]
         if (ftm.length === 1) {
             yield `${indentation}${key}: ${ftm[0]},`

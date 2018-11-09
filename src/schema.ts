@@ -18,7 +18,9 @@ export interface FieldInfo<Context> {
     type: PlainType<Context>
     index?: IndexOptions
     format?: any
+    optional?: boolean
     presentIn?: Array<Context>
+    optionalIn?: Array<Context>
 }
 
 export interface SchemaFields<Context = DefaultContext> {

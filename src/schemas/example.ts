@@ -15,7 +15,8 @@ const schema: Schema<Context> = {
             last: String
         }),
         createdAt: {
-            type: Date
+            type: Date,
+            optional: true
         },
         email: {
             type: String,
@@ -32,7 +33,7 @@ const schema: Schema<Context> = {
 }
 
 export default {
-    mongoose: toMongooseSchema(schema),
-    ts: toTypescriptSchema(schema),
-    json: toJSONSchema(schema)
+    mongoose: toMongooseSchema('exampleSchema', schema),
+    typescript: toTypescriptSchema('Example', schema),
+    json: toJSONSchema('ExampleJSONSchema', schema, false)
 }
