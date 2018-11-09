@@ -22,7 +22,8 @@ const schema: Schema<Context> = {
             index: true,
             format: /@/
         },
-        phoneNumbers: [Date],
+        phoneNumbers: [{type: String}],
+
         password: {
             type: String,
             presentIn: ['mongoose', 'typescript']

@@ -10,7 +10,7 @@ export interface Schema<Context = DefaultContext> {
 type SimpleType<Context> = Symbol | Complex<Context> | typeof String | typeof Number | typeof Boolean | typeof Date
 type IndexOptions = false | true | 'unique' | 'unique-sparse'
 
-export type PlainType<Context> = SimpleType<Context> | [SimpleType<Context>]
+export type PlainType<Context> = SimpleType<Context> | [FieldInfo<Context> | SimpleType<Context>]
 
 export type Field<Context> = FieldInfo<Context> | PlainType<Context>
 
