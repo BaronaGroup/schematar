@@ -54,6 +54,10 @@ function asTSType<Context>(type: PlainType<Context>, context: Context, indentati
     if (type === ObjectId) return 'IDType'
     if (type === String) return 'string'
     if (type === Date) return 'DateType'
+    if (type === Boolean) return 'boolean'
+    if (type === Number) return 'number'
+    if (type === Object) return 'any'
+
     if (type instanceof Complex) {
         return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
     }

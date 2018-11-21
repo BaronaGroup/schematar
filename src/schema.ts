@@ -7,7 +7,7 @@ export interface Schema<Context = DefaultContext> {
     fields: SchemaFields<Context>
 }
 
-type SimpleType<Context> = Symbol | Complex<Context> | typeof String | typeof Number | typeof Boolean | typeof Date
+type SimpleType<Context> = Symbol | Complex<Context> | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object
 type IndexOptions = false | true | 'unique' | 'unique-sparse'
 
 export type PlainType<Context> = SimpleType<Context> | [FieldInfo<Context> | SimpleType<Context>]
@@ -22,6 +22,8 @@ export interface FieldInfo<Context> {
     presentIn?: Array<Context>
     optionalIn?: Array<Context>
     enum?: string[]
+    mongooseDefault?: any
+    mongooseRef?: string
 }
 
 export interface SchemaFields<Context = DefaultContext> {

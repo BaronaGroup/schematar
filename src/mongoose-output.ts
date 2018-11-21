@@ -53,7 +53,10 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
 
 function asMongooseType<Context>(type: PlainType<Context>, context: Context, indentation: string): string {
     if (type === ObjectId) return 'ObjectId'
-    if (type === String) return 'string'
+    if (type === String) return 'String'
+    if (type === Boolean) return 'Boolean'
+    if (type === Number) return 'Number'
+    if (type === Object) return 'Object'
     if (type === Date) return 'Date'
     if (type instanceof Complex) {
         return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
