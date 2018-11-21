@@ -55,7 +55,7 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
             }
         }
         if (field.mongooseRef) {
-            yield `${subind}ref: '${field.mongooseRef},`
+            yield `${subind}ref: '${field.mongooseRef}',`
         }
         yield indentation + '}'
 
