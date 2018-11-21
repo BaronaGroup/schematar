@@ -63,7 +63,7 @@ function asMongooseType<Context>(type: PlainType<Context>, context: Context, ind
         const output = [...outputFieldFormat(type[0], context, indentation)].join('\n')
         return '[' + output + ']'
     }
-    throw new Error('Unsupported type ' + type)
+    throw new Error('Unsupported type for mongoose schema ' + type)
 }
 
 function isFullDeclaration<Context>(field: Field<Context>): field is FieldInfo<Context> {

@@ -106,7 +106,7 @@ function asJSONSchemaProperty<Context>(type: PlainType<Context>, context: Contex
         }
         return subschema
     }
-    throw new Error('Unsupported type ' + type)
+    throw new Error('Unsupported type for json-schema ' + type)
 }
 
 function isFullDeclaration<Context>(field: Field<Context>): field is FieldInfo<Context> {

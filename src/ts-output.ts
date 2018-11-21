@@ -62,7 +62,7 @@ function asTSType<Context>(type: PlainType<Context>, context: Context, indentati
         const output = [...outputFieldFormat(type[0], context, indentation)].join('\n')
         return 'Array<' + output + '>'
     }
-    throw new Error('Unsupported type ' + type)
+    throw new Error('Unsupported type for typescript type ' + type)
 }
 
 function isFullDeclaration<Context>(field: Field<Context>): field is FieldInfo<Context> {
