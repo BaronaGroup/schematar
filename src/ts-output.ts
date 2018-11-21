@@ -10,11 +10,13 @@ export default function(exportName: string, schema: Schema, context: string = 't
     const output: string[] = []
     for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
     output.unshift(`export interface ${exportName}Base<IDType, DateType, Defaultable> {`)
+    output.unshift('// @ts-ignore')
     output.unshift('// tslint:disable array-type')
     output.push('}')
     if (!options.omitExtraExports) {
-        output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
-        output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
+        output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date, never>`)
+        output.push(`export type ${exportName}JSON = ${exportName}Base<string, string, never>`)
+        output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date, undefined>`)
     }
     return output.join('\n')
 }
