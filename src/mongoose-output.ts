@@ -1,6 +1,7 @@
 import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
 import ObjectId from './object-id'
 import Complex from './complex'
+import now from './now'
 
 export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'mongoose') {
     const output: string[] = []
@@ -40,12 +41,24 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
         } else if (field.index === 'unique-sparse') {
             yield `${subind}unique: true,`
             yield `${subind}sparse: true,`
-        }        
+        }
         if (field.enum) {
             yield `${subind}enum: [${field.enum.map(val => "'" + val.replace(/'/g, '\\') + "'").join(', ')}],`
         }
+        if (field.mongooseDefault) {
+            if (field.mongooseDefault === now) {
+              yield `${subind}default: Date.now,`
+            } else if (typeof field.mongooseDefault === 'string') {
+              yield `${subind}default: '${field.mongooseDefault.replace(/'/, "\\'")}',`
+            } else {
+                throw new Error('Cannot handle default value: ' + field.mongooseDefault)
+            }
+        }
+        if (field.mongooseRef) {
+            yield `${subind}ref: '${field.mongooseRef},`
+        }
         yield indentation + '}'
-        
+
     } else {
         yield asMongooseType(field, context, indentation)
     }
