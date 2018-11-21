@@ -9,7 +9,7 @@ interface Options {
 export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'typescript', options: Options = {}) {
     const output: string[] = []
     for (const field of outputFields(schema.fields, context as Context, '  ')) output.push(field)
-    output.unshift(`export interface ${exportName}Base<IDType, DateType> {`)
+    output.unshift(`export interface ${exportName}Base<IDType, DateType, Defaultable> {`)
     output.unshift('// tslint:disable array-type')
     output.push('}')
     if (!options.omitExtraExports) {
@@ -49,9 +49,10 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
         if (field.enum) {
             yield field.enum.map(f => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
         } else {
-            yield asTSType(field.type, context, indentation)
+          const tsType = asTSType(field.type, context, indentation)
+          yield 'mongooseDefault' in field ? tsType  + ' | Defaultable' : tsType
         }
-        
+
     } else {
         yield asTSType(field, context, indentation)
     }
