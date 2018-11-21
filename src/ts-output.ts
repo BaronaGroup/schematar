@@ -2,13 +2,20 @@ import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from 
 import ObjectId from './object-id'
 import Complex from './complex'
 
-export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'typescript') {
+interface Options {
+  omitExtraExports?: boolean
+}
+
+export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'typescript', options: Options = {}) {
     const output: string[] = []
     for (const field of outputFields(schema.fields, context as Context, '  ')) output.push(field)
     output.unshift(`export interface ${exportName}Base<IDType, DateType> {`)
+    output.unshift('// tslint:disable array-type')
     output.push('}')
-    output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
-    output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
+    if (!options.omitExtraExports) {
+        output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
+        output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
+    }
     return output.join('\n')
 }
 
