@@ -1,9 +1,9 @@
-import { Schema, DefaultContext, SchemaFields } from "./schema";
+import { SchemaFields } from "./schema";
 
-export default class Complex<Context = DefaultContext>{
-    public subschema :SchemaFields<Context>
+export default class Complex{
+    public subschema: SchemaFields
 
-    constructor(subschema: SchemaFields<Context>) {       
+    constructor(subschema: SchemaFields) {
         this.subschema = subschema
     }
 }

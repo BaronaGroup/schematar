@@ -3,20 +3,20 @@ import ObjectId from './object-id'
 import Complex from './complex'
 import now from './now'
 
-export default function<Context>(exportName: string, schema: Schema<Context>, context: DefaultContext | Context = 'mongoose') {
+export default function(exportName: string, schema: Schema, context: string = 'mongoose') {
     const output: string[] = []
     output.push(`export const ${exportName} = {`)
-    for (const field of outputFields(schema.fields, context as Context, '  ')) output.push(field)
+    for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
     output.push('}')
     return output.join('\n')
 }
 
-function* outputFields<Context>(fields: SchemaFields<Context>, context: Context, indentation: string): IterableIterator<string> {
+function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
     for (const key of Object.keys(fields)) {
         if (key === '_id' || key === '__v') continue
 
         const field = fields[key]
-        const presentIn: Context[] | undefined = (field as any).presentIn
+        const presentIn: string[] | undefined = (field as any).presentIn
         if (presentIn && !presentIn.includes(context)) continue
         const ftm = [...outputFieldFormat(field, context, indentation)]
         if (ftm.length === 1) {
@@ -29,7 +29,7 @@ function* outputFields<Context>(fields: SchemaFields<Context>, context: Context,
     }
 }
 
-function* outputFieldFormat<Context>(field: Field<Context>, context: Context, indentation: string) {
+function* outputFieldFormat(field: Field, context: string, indentation: string) {
     if (isFullDeclaration(field)) {
         yield '{'
         const subind = indentation + '  '
@@ -64,7 +64,7 @@ function* outputFieldFormat<Context>(field: Field<Context>, context: Context, in
     }
 }
 
-function asMongooseType<Context>(type: PlainType<Context>, context: Context, indentation: string): string {
+function asMongooseType<Context>(type: PlainType, context: string, indentation: string): string {
     if (type === ObjectId) return 'ObjectId'
     if (type === String) return 'String'
     if (type === Boolean) return 'Boolean'
@@ -82,7 +82,7 @@ function asMongooseType<Context>(type: PlainType<Context>, context: Context, ind
     throw new Error('Unsupported type for mongoose schema ' + type)
 }
 
-function isFullDeclaration<Context>(field: Field<Context>): field is FieldInfo<Context> {
+function isFullDeclaration<Context>(field: Field): field is FieldInfo {
     return !!(field as any).type
 }
 

@@ -1,7 +1,6 @@
-import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
+import {Schema, SchemaFields, FieldInfo, Field, PlainType} from './schema'
 import ObjectId from './object-id'
 import Complex from './complex'
-
 
 
 interface JSONSchemaSimpleProperty {
@@ -37,7 +36,7 @@ interface JSONSchema extends JSONSchemaObjectProperty {
     $schema: 'http://json-schema.org/draft-07/schema#'
 }
 
-export default function<Context>(exportName: string, schema: Schema<Context>, allowAdditionalFields: boolean, context: DefaultContext | Context = 'jsonschema') {
+export default function(exportName: string, schema: Schema, allowAdditionalFields: boolean, context: string = 'jsonschema') {
     const output: string[] = []
     const base: JSONSchema = {
         $id: exportName,
@@ -48,43 +47,43 @@ export default function<Context>(exportName: string, schema: Schema<Context>, al
         additionalProperties: allowAdditionalFields
     }
 
-    outputFields(schema.fields, context as Context, base)
-    
+    outputFields(schema.fields, context, base)
+
     return `export const ${exportName} = ${JSON.stringify(base, null, 2)}`
 }
 
-function outputFields<Context>(fields: SchemaFields<Context>, context: Context, schema: JSONSchemaObjectProperty) {
+function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty) {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
-        const presentIn: Context[] | undefined = (field as any).presentIn
+        const presentIn: string[] | undefined = (field as any).presentIn
         if (presentIn && !presentIn.includes(context)) continue
-        
+
         schema.properties[key] = outputFieldFormat(field, context)
         const optional = isOptional(field, context)
         if (!optional) schema.required.push(key)
     }
 }
 
-function isOptional<Context>(field: any, context: Context) {
+function isOptional(field: any, context: string) {
     if (!field.type) return false
-    const fi = field as FieldInfo<Context>
+    const fi = field as FieldInfo
     return fi.optional || (fi.optionalIn && fi.optionalIn.includes(context))
 
 }
 
-function outputFieldFormat<Context>(field: Field<Context>, context: Context) {
+function outputFieldFormat(field: Field, context: string) {
     if (isFullDeclaration(field)) {
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
         const prop = asJSONSchemaProperty(field.type, context)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
         return prop
-        
+
     } else {
         return asJSONSchemaProperty(field, context)
     }
 }
 
-function asJSONSchemaProperty<Context>(type: PlainType<Context>, context: Context): JSONSchemaProperty {
+function asJSONSchemaProperty(type: PlainType, context: string): JSONSchemaProperty {
     if (type === ObjectId) return {type: 'string', pattern: '^[a-fA-F0-9]{24}$'}
     if (type === String) return {type: 'string'}
     if (type === Date) return {type: 'string', pattern: /^\d\d-\d\d-\d\d\d\dT\d\d:\d\d:\d\d\.\d\d\d(Z|[+-]\d\d:?\d\d)$/}
@@ -109,7 +108,7 @@ function asJSONSchemaProperty<Context>(type: PlainType<Context>, context: Contex
     throw new Error('Unsupported type for json-schema ' + type)
 }
 
-function isFullDeclaration<Context>(field: Field<Context>): field is FieldInfo<Context> {
+function isFullDeclaration<Context>(field: Field): field is FieldInfo {
     return !!(field as any).type
 }
 

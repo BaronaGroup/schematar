@@ -1,16 +1,14 @@
 import {Schema} from '../schema'
 import ObjectId from '../object-id'
-import Complex from '../complex' 
+import Complex from '../complex'
 import toMongooseSchema from '../mongoose-output'
 import toTypescriptSchema from '../ts-output'
 import toJSONSchema from '../json-schema-output'
-import { Context } from './context';
-
-const schema: Schema<Context> = {
+const schema: Schema = {
     fields: {
         _id: ObjectId,
         parent: ObjectId,
-        name: new Complex<Context>({
+        name: new Complex({
             first: String,
             last: String
         }),

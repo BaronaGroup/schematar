@@ -3,29 +3,29 @@ import Complex from './complex'
 
 export type DefaultContext = 'mongoose' | 'typescript' | 'jsonschema'
 
-export interface Schema<Context = DefaultContext> {
-    fields: SchemaFields<Context>
+export interface Schema {
+    fields: SchemaFields
 }
 
-type SimpleType<Context> = Symbol | Complex<Context> | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object
+type SimpleType = Symbol | Complex | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object
 type IndexOptions = false | true | 'unique' | 'unique-sparse'
 
-export type PlainType<Context> = SimpleType<Context> | [FieldInfo<Context> | SimpleType<Context>]
+export type PlainType = SimpleType | [FieldInfo | SimpleType]
 
-export type Field<Context> = FieldInfo<Context> | PlainType<Context>
+export type Field = FieldInfo | PlainType
 
-export interface FieldInfo<Context> {
-    type: PlainType<Context>
+export interface FieldInfo {
+    type: PlainType
     index?: IndexOptions
     format?: any
     optional?: boolean
-    presentIn?: Array<Context>
-    optionalIn?: Array<Context>
+    presentIn?: Array<string>
+    optionalIn?: Array<string>
     enum?: string[]
     mongooseDefault?: any
     mongooseRef?: string
 }
 
-export interface SchemaFields<Context = DefaultContext> {
-    [name: string]: Field<Context>
+export interface SchemaFields {
+    [name: string]: Field
 }
