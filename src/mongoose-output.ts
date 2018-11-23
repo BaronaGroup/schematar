@@ -50,6 +50,8 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
               yield `${subind}default: Date.now,`
             } else if (typeof field.mongooseDefault === 'string') {
               yield `${subind}default: '${field.mongooseDefault.replace(/'/, "\\'")}',`
+            } else if (typeof field.mongooseDefault === 'number') {
+              yield `${subind}default: ${field.mongooseDefault},`
             } else {
                 throw new Error('Cannot handle default value: ' + field.mongooseDefault)
             }
