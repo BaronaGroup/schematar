@@ -2,6 +2,9 @@ import {Schema, SchemaFields, FieldInfo, Field, PlainType} from './schema'
 import ObjectId from './object-id'
 import Complex from './complex'
 
+const datePatternTmp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d(Z|[+-]\d\d:?\d\d)$/.toString()
+const datePattern = datePatternTmp.substring(1, datePatternTmp.length - 1)
+
 
 interface JSONSchemaSimpleProperty {
     type: string
@@ -36,7 +39,7 @@ interface JSONSchema extends JSONSchemaObjectProperty {
     $schema: 'http://json-schema.org/draft-07/schema#'
 }
 
-export default function(exportName: string, schema: Schema, allowAdditionalFields: boolean, context: string = 'jsonschema') {
+export default function(exportName: string, schema: Schema, allowAdditionalFields: boolean, context: string = 'jsonschema', makeEverythingOptional = false) {
     const output: string[] = []
     const base: JSONSchema = {
         $id: exportName,
@@ -47,19 +50,19 @@ export default function(exportName: string, schema: Schema, allowAdditionalField
         additionalProperties: allowAdditionalFields
     }
 
-    outputFields(schema.fields, context, base)
+    outputFields(schema.fields, context, base, makeEverythingOptional)
 
     return `export const ${exportName} = ${JSON.stringify(base, null, 2)}`
 }
 
-function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty) {
+function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, makeEverythingOptional: boolean) {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
         const presentIn: string[] | undefined = (field as any).presentIn
         if (presentIn && !presentIn.includes(context)) continue
 
-        schema.properties[key] = outputFieldFormat(field, context)
-        const optional = isOptional(field, context)
+        schema.properties[key] = outputFieldFormat(field, context, makeEverythingOptional)
+        const optional = makeEverythingOptional || isOptional(field, context)
         if (!optional) schema.required.push(key)
     }
 }
@@ -71,22 +74,26 @@ function isOptional(field: any, context: string) {
 
 }
 
-function outputFieldFormat(field: Field, context: string) {
+function outputFieldFormat(field: Field, context: string, makeEverythingOptional: boolean) {
     if (isFullDeclaration(field)) {
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
-        const prop = asJSONSchemaProperty(field.type, context)
+        const prop = asJSONSchemaProperty(field.type, context, makeEverythingOptional)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
         return prop
 
     } else {
-        return asJSONSchemaProperty(field, context)
+        return asJSONSchemaProperty(field, context, makeEverythingOptional)
     }
 }
 
-function asJSONSchemaProperty(type: PlainType, context: string): JSONSchemaProperty {
+function asJSONSchemaProperty(type: PlainType, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
     if (type === ObjectId) return {type: 'string', pattern: '^[a-fA-F0-9]{24}$'}
     if (type === String) return {type: 'string'}
-    if (type === Date) return {type: 'string', pattern: /^\d\d-\d\d-\d\d\d\dT\d\d:\d\d:\d\d\.\d\d\d(Z|[+-]\d\d:?\d\d)$/}
+    if (type === Date) {
+        return {type: 'string', pattern: datePattern}
+    }
+    if (type === Boolean) return {type: 'boolean'}
+    if (type === Number) return {type: 'number'}
     if (type instanceof Complex) {
         const subschema: JSONSchemaObjectProperty = {
             type: 'object',
@@ -94,11 +101,11 @@ function asJSONSchemaProperty(type: PlainType, context: string): JSONSchemaPrope
             properties: {},
             additionalProperties: false
         }
-        outputFields(type.subschema, context, subschema)
+        outputFields(type.subschema, context, subschema, makeEverythingOptional)
         return subschema
     }
     if (type instanceof Array) {
-        const outtype = outputFieldFormat(type[0], context)
+        const outtype = outputFieldFormat(type[0], context, makeEverythingOptional)
         const subschema: JSONSchemaArrayProperty = {
             type: 'array',
             items: outtype

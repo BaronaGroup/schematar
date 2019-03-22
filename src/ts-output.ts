@@ -9,14 +9,14 @@ interface Options {
 export default function(exportName: string, schema: Schema, context: string = 'typescript', options: Options = {}) {
     const output: string[] = []
     for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
-    output.unshift(`export interface ${exportName}Base<IDType, DateType, Defaultable> {`)
-    output.unshift('// @ts-ignore')
+    output.unshift(`export interface ${exportName}Base<IDType, DateType> {`)
+    output.unshift('// @ts-ignore -- ignore possibly unused type parameters')
     output.unshift('// tslint:disable array-type')
     output.push('}')
     if (!options.omitExtraExports) {
-        output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date, never>`)
-        output.push(`export type ${exportName}JSON = ${exportName}Base<string, string, never>`)
-        output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date, undefined>`)
+        output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
+        output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
+        output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date>`)
     }
     return output.join('\n')
 }
@@ -29,9 +29,11 @@ function* outputFields(fields: SchemaFields, context: string, indentation: strin
 
         const ftm = [...outputFieldFormat(field, context, indentation)]
         const optional = isOptional(field, context)
+        const allowNull = (field as any).allowNull
+        if (allowNull && !optional) throw new Error('allowNull can only be used on optional fields')
 
         if (ftm.length === 1) {
-            yield `${indentation}${key}${optional ? '?' : ''}: ${ftm[0]}`
+            yield `${indentation}${key}${optional ? '?' : ''}: ${ftm[0]}${allowNull ? ' | null' : ''}`
         } else {
             yield `${indentation}${key}: ${ftm[0]}`
             yield* yieldMany(ftm.slice(1))
@@ -51,8 +53,7 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         if (field.enum) {
             yield field.enum.map(f => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
         } else {
-          const tsType = asTSType(field.type, context, indentation)
-          yield 'mongooseDefault' in field ? tsType  + ' | Defaultable' : tsType
+          yield asTSType(field.type, context, indentation)
         }
 
     } else {

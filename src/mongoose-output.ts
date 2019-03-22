@@ -45,7 +45,7 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         if (field.enum) {
             yield `${subind}enum: [${field.enum.map(val => "'" + val.replace(/'/g, '\\') + "'").join(', ')}],`
         }
-        if (field.mongooseDefault) {
+        if (field.mongooseDefault !== undefined) {
             if (field.mongooseDefault === now) {
               yield `${subind}default: Date.now,`
             } else if (typeof field.mongooseDefault === 'string') {
@@ -58,6 +58,9 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         }
         if (field.mongooseRef) {
             yield `${subind}ref: '${field.mongooseRef}',`
+        }
+        if (field.mongooseExpires) {
+            yield `${subind}expires: '${field.mongooseExpires}',`
         }
         yield indentation + '}'
 
