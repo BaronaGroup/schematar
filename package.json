@@ -2,8 +2,8 @@
     "name": "schemer",
     "version": "0.0.1",
     "devDependencies": {
-        "@types/node": "^10.12.3",
-        "ts-node-dev": "^1.0.0-pre.30",
-        "typescript": "^3.1.6"
+        "@types/node": "^10.14.2",
+        "ts-node-dev": "^1.0.0-pre.32",
+        "typescript": "^3.3.4000"
     }
 }
