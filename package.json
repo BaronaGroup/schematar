@@ -1,5 +1,5 @@
 {
-    "name": "schemer",
+    "name": "schematar",
     "version": "0.0.1",
     "devDependencies": {
         "@types/node": "^10.14.2",
