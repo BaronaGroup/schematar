@@ -1,9 +1,11 @@
-import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
+import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType, isFullDeclaration} from './schema'
 import Complex from './complex'
 import {ObjectId} from './object-id'
+import {generateHash} from './hash-schema'
 
 export interface TSOptions {
   omitExtraExports?: boolean
+    exportHash?: string
 }
 
 export default function(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
@@ -21,6 +23,12 @@ export default function(exportName: string, schema: Schema, context: string = 't
         output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
         output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date>`)
     }
+    const {exportHash} = options
+    if (exportHash) {
+        const hash = generateHash(schema)
+        output.push(`export const ${exportHash} = '${hash}'`)
+    }
+
     return output.join('\n')
 }
 
@@ -81,10 +89,6 @@ function asTSType<Context>(type: PlainType, context: string, indentation: string
         return 'Array<' + output + '>'
     }
     throw new Error('Unsupported type for typescript type ' + type)
-}
-
-function isFullDeclaration<Context>(field: Field): field is FieldInfo {
-    return !!(field as any).type
 }
 
 function* yieldMany<T>(items: T[]): IterableIterator<T> {

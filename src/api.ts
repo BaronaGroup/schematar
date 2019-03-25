@@ -10,6 +10,7 @@ import {ObjectId as ObjectIdType} from './object-id'
 import nowToken from './now'
 import ComplexType from './complex'
 import {karhu} from './karhu'
+import {generateHash} from './hash-schema'
 
 export const ObjectId = ObjectIdType
 export type Schema = SchemaType
@@ -42,6 +43,7 @@ interface TypescriptSchema {
   context?: string,
   omitExtraExports?: boolean
   schema?: Schema
+  exportHash?: string
 }
 
 interface SchemaFile {
@@ -51,7 +53,7 @@ interface SchemaFile {
   typescriptSchemas?: TypescriptSchema[]
 }
 
-async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean) {
+async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean = true) {
   const schemaFile = require(path.resolve(filename)) as SchemaFile
   const topLevelSchema = schemaFile.schema || schemaFile.default
   const topLevelName = schemaFile.name || pickNameFromFilename(filename)
@@ -72,7 +74,9 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
     basename = path.basename(filename, ext),
     outputFilename = path.join(outputPath, basename + '.schematar.ts')
 
-  log.info('Storing typescript interfaces in', outputFilename)
+  if (logCreations) {
+    log.info('Storing typescript interfaces in', outputFilename)
+  }
 
   await new Promise((resolve, reject) => fs.writeFile(outputFilename, exported.join('\n'), 'utf8', err => !err ? resolve() : reject(err)))
 }
@@ -80,4 +84,8 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
 function pickNameFromFilename(filename: string) {
   const fn = path.basename(filename, path.extname(filename))
   return fn[0].toUpperCase() + fn.substring(1)
+}
+
+export function hashSchema(schema: Schema) {
+  return generateHash(schema)
 }
