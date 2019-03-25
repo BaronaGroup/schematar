@@ -6,7 +6,7 @@ import gulpTS from 'gulp-typescript'
 const tsProject = gulpTS.createProject('tsconfig.json')
 
 function clean() {
-  return gulp.src('dest/*', {read: false})
+  return gulp.src('dist/*', {read: false})
     .pipe(gulpClean())
 }
 
