@@ -1,9 +1,9 @@
 import {Schema} from '../schema'
-import ObjectId from '../object-id'
 import Complex from '../complex'
 import toMongooseSchema from '../mongoose-output'
 import toTypescriptSchema from '../ts-output'
 import toJSONSchema from '../json-schema-output'
+import {ObjectId} from 'bson'
 const schema: Schema = {
     fields: {
         _id: ObjectId,
@@ -37,5 +37,5 @@ const schema: Schema = {
 export default {
     mongoose: toMongooseSchema('exampleSchema', schema),
     typescript: toTypescriptSchema('Example', schema),
-    json: toJSONSchema('ExampleJSONSchema', schema, false)
+    json: toJSONSchema('ExampleJSONSchema', schema)
 }

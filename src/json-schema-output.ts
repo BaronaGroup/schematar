@@ -1,10 +1,9 @@
 import {Schema, SchemaFields, FieldInfo, Field, PlainType} from './schema'
-import ObjectId from './object-id'
 import Complex from './complex'
+import {ObjectId} from './object-id'
 
 const datePatternTmp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d(Z|[+-]\d\d:?\d\d)$/.toString()
 const datePattern = datePatternTmp.substring(1, datePatternTmp.length - 1)
-
 
 interface JSONSchemaSimpleProperty {
     type: string
@@ -21,7 +20,11 @@ interface JSONSchemaStringProperty {
     enum?: string[]
 }
 
-type JSONSchemaProperty = JSONSchemaSimpleProperty | JSONSchemaObjectProperty | JSONSchemaStringProperty | JSONSchemaArrayProperty
+interface JSONSchemaAnyProperty {
+
+}
+
+type JSONSchemaProperty = JSONSchemaSimpleProperty | JSONSchemaObjectProperty | JSONSchemaStringProperty | JSONSchemaArrayProperty | JSONSchemaAnyProperty
 
 interface JSONSchemaProperties {
     [key: string]: JSONSchemaProperty
@@ -34,25 +37,31 @@ interface JSONSchemaObjectProperty {
     additionalProperties: boolean
 }
 
-interface JSONSchema extends JSONSchemaObjectProperty {
+export interface JSONSchema extends JSONSchemaObjectProperty {
     $id: string
     $schema: 'http://json-schema.org/draft-07/schema#'
 }
 
-export default function(exportName: string, schema: Schema, allowAdditionalFields: boolean, context: string = 'jsonschema', makeEverythingOptional = false) {
+export interface JSONSchemaOptions {
+    makeEverythingOptional?: boolean
+    allowAdditionalFields?: boolean
+    schemaId?: string
+}
+
+export default function(schema: Schema, context: string = 'jsonschema', options: JSONSchemaOptions = {}) {
     const output: string[] = []
     const base: JSONSchema = {
-        $id: exportName,
+        $id: options.schemaId,
         type: 'object',
         $schema: 'http://json-schema.org/draft-07/schema#',
         properties: {},
         required: [],
-        additionalProperties: allowAdditionalFields
+        additionalProperties: options.allowAdditionalFields
     }
 
-    outputFields(schema.fields, context, base, makeEverythingOptional)
+    outputFields(schema.fields, context, base, !!options.makeEverythingOptional)
 
-    return `export const ${exportName} = ${JSON.stringify(base, null, 2)}`
+    return base
 }
 
 function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, makeEverythingOptional: boolean) {
@@ -94,6 +103,7 @@ function asJSONSchemaProperty(type: PlainType, context: string, makeEverythingOp
     }
     if (type === Boolean) return {type: 'boolean'}
     if (type === Number) return {type: 'number'}
+    if (type === Object) return {}
     if (type instanceof Complex) {
         const subschema: JSONSchemaObjectProperty = {
             type: 'object',

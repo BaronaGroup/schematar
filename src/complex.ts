@@ -1,6 +1,6 @@
-import { SchemaFields } from "./schema";
+import { SchemaFields } from './schema'
 
-export default class Complex{
+export default class Complex {
     public subschema: SchemaFields
 
     constructor(subschema: SchemaFields) {

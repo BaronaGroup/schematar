@@ -1,96 +1,106 @@
 import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
-import ObjectId from './object-id'
 import Complex from './complex'
 import now from './now'
+import {ObjectId} from './object-id'
+import {ObjectId as MongoObjectId} from 'mongodb'
+import mongoose from 'mongoose'
 
-export default function(exportName: string, schema: Schema, context: string = 'mongoose') {
-    const output: string[] = []
-    output.push(`export const ${exportName} = {`)
-    for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
-    output.push('}')
-    return output.join('\n')
+export interface MongooseFields {
+  [key: string]: MongooseField
 }
 
-function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
-    for (const key of Object.keys(fields)) {
-        if (key === '_id' || key === '__v') continue
-
-        const field = fields[key]
-        const presentIn: string[] | undefined = (field as any).presentIn
-        if (presentIn && !presentIn.includes(context)) continue
-        const ftm = [...outputFieldFormat(field, context, indentation)]
-        if (ftm.length === 1) {
-            yield `${indentation}${key}: ${ftm[0]},`
-        } else {
-            yield `${indentation}${key}: ${ftm[0]}`
-            yield* yieldMany(ftm.slice(1, -1))
-            yield ftm.slice(-1)[0] + ','
-        }
-    }
+interface MongooseField {
+  type: any,
+  index?: boolean
+  unique?: boolean
+  sparse?: boolean
+  enum?: any[]
+  ref?: string
+  default?: any
+  expires?: string
 }
 
-function* outputFieldFormat(field: Field, context: string, indentation: string) {
-    if (isFullDeclaration(field)) {
-        yield '{'
-        const subind = indentation + '  '
-        yield `${subind}type: ${asMongooseType(field.type, context, subind)},`
-        if (field.index === true) {
-            yield `${subind}index: true,`
-        } else if (field.index === 'unique') {
-            yield `${subind}unique: true,`
-        } else if (field.index === 'unique-sparse') {
-            yield `${subind}unique: true,`
-            yield `${subind}sparse: true,`
-        }
-        if (field.enum) {
-            yield `${subind}enum: [${field.enum.map(val => "'" + val.replace(/'/g, '\\') + "'").join(', ')}],`
-        }
-        if (field.mongooseDefault !== undefined) {
-            if (field.mongooseDefault === now) {
-              yield `${subind}default: Date.now,`
-            } else if (typeof field.mongooseDefault === 'string') {
-              yield `${subind}default: '${field.mongooseDefault.replace(/'/, "\\'")}',`
-            } else if (typeof field.mongooseDefault === 'number') {
-              yield `${subind}default: ${field.mongooseDefault},`
-            } else {
-                throw new Error('Cannot handle default value: ' + field.mongooseDefault)
-            }
-        }
-        if (field.mongooseRef) {
-            yield `${subind}ref: '${field.mongooseRef}',`
-        }
-        if (field.mongooseExpires) {
-            yield `${subind}expires: '${field.mongooseExpires}',`
-        }
-        yield indentation + '}'
-
-    } else {
-        yield asMongooseType(field, context, indentation)
-    }
+export default function (schema: Schema, context: string = 'mongoose') {
+  return outputFields(schema.fields, context)
 }
 
-function asMongooseType<Context>(type: PlainType, context: string, indentation: string): string {
-    if (type === ObjectId) return 'ObjectId'
-    if (type === String) return 'String'
-    if (type === Boolean) return 'Boolean'
-    if (type === Number) return 'Number'
-    if (type === Object) return 'Object'
-    if (type === Date) return 'Date'
-    if (type instanceof Complex) {
-        return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
+function outputFields(fields: SchemaFields, context: string): MongooseFields {
+  const outFields: MongooseFields = {}
+  for (const [key, field1] of Object.entries(fields)) {
+    const field = field1 as Field
+    const presentIn: string[] | undefined = (field as any).presentIn
+    if (presentIn && !presentIn.includes(context)) continue
+
+    if (key === '_id' || key === '__v') continue
+    outFields[key] = outputFieldFormat(field, context)
+  }
+  return outFields
+}
+
+function outputFieldFormat(field: Field, context: string): MongooseField {
+  if (isFullDeclaration(field)) {
+    const outField: MongooseField = {
+      type: asMongooseType(field.type, context)
     }
-    if (type instanceof Array) {
-        // TODO: support complex types
-        const output = [...outputFieldFormat(type[0], context, indentation)].join('\n')
-        return '[' + output + ']'
+    if (field.index === true) {
+      outField.index = true
+    } else if (field.index === 'unique') {
+      outField.unique = true
+    } else if (field.index === 'unique-sparse') {
+      outField.unique = true
+      outField.sparse = true
     }
-    throw new Error('Unsupported type for mongoose schema ' + type)
+    outField.enum = field.enum
+
+    if (field.mongooseDefault !== undefined) {
+      if (field.mongooseDefault === now) {
+        outField.default = Date.now
+      } else {
+        outField.default = field.mongooseDefault
+      }
+
+    }
+    if (field.mongooseRef) {
+      outField.ref = field.mongooseRef
+    }
+    if (field.mongooseExpires) {
+      outField.expires = field.mongooseExpires
+    }
+    return omitUndefined(outField)
+  } else {
+    return {type: asMongooseType(field, context)}
+  }
+}
+
+function asMongooseType<Context>(type: PlainType, context: string): any {
+  if (type === ObjectId) return mongoose.Schema.Types.ObjectId
+  if (type === String) return type
+  if (type === Boolean) return type
+  if (type === Number) return type
+  if (type === Object) return type
+  if (type === Date) return type
+
+  if (type instanceof Complex) {
+    return outputFields(type.subschema, context)
+  }
+  if (type instanceof Array) {
+    return type.map(subtype => outputFieldFormat(subtype, context).type)
+  }
+  throw new Error('Unsupported type for mongoose schema ' + type)
 }
 
 function isFullDeclaration<Context>(field: Field): field is FieldInfo {
-    return !!(field as any).type
+  return !!(field as any).type
 }
 
 function* yieldMany<T>(items: T[]): IterableIterator<T> {
-    for (const item of items) yield item
+  for (const item of items) yield item
+}
+
+function omitUndefined<T extends object>(obj: T): T {
+  const out: any = {}
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) out[key] = value
+  }
+  return out as T
 }

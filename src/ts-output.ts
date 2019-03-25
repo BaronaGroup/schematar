@@ -1,19 +1,22 @@
 import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
-import ObjectId from './object-id'
 import Complex from './complex'
+import {ObjectId} from './object-id'
 
-interface Options {
+export interface TSOptions {
   omitExtraExports?: boolean
 }
 
-export default function(exportName: string, schema: Schema, context: string = 'typescript', options: Options = {}) {
+export default function(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
     const output: string[] = []
+    output.push('// Generated file, do not edit!')
+    output.push('')
+    output.push('// tslint:disable array-type')
+    output.push('// @ts-ignore -- ignore possibly unused type parameters')
+    output.push(`export interface ${exportName}Base<IDType, DateType> {`)
     for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
-    output.unshift(`export interface ${exportName}Base<IDType, DateType> {`)
-    output.unshift('// @ts-ignore -- ignore possibly unused type parameters')
-    output.unshift('// tslint:disable array-type')
     output.push('}')
     if (!options.omitExtraExports) {
+        output.push(`import {ObjectId} from 'mongodb'`)
         output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
         output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
         output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date>`)
@@ -51,7 +54,7 @@ function isOptional<Context>(field: any, context: string) {
 function* outputFieldFormat(field: Field, context: string, indentation: string) {
     if (isFullDeclaration(field)) {
         if (field.enum) {
-            yield field.enum.map(f => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
+            yield field.enum.map(f => '\'' + f.replace(/'/g, '\\\'') + '\'').join(' | ')
         } else {
           yield asTSType(field.type, context, indentation)
         }

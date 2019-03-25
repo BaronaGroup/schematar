@@ -1,0 +1,7 @@
+{
+  "ext": "ts,json",
+  "delay": "200ms",
+  "ignore": [
+    "dist/"
+  ]
+}

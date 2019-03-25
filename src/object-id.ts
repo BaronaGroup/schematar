@@ -1,1 +1,1 @@
-export default Symbol('ObjectId')
+export const ObjectId = Symbol('objectId')

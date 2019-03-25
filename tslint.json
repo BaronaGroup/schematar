@@ -1,0 +1,47 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "linterOptions": {
+    "exclude": [
+      "./**/*.json"
+    ]
+  },
+  "rules": {
+    "semicolon": [
+      true,
+      "never"
+    ],
+    "no-floating-promises": true,
+    "ordered-imports": false,
+    "no-unused-expression": true,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "one-variable-per-declaration": false,
+    "interface-name": false,
+    "curly": false,
+    "max-line-length": false,
+    "trailing-comma": false,
+    "arrow-parens": false,
+    "max-classes-per-file": false,
+    "no-empty-interface": false,
+    "no-trailing-whitespace": false,
+    "object-literal-sort-keys": false,
+    "new-parens": false,
+    "member-ordering": false,
+    "only-arrow-functions": false,
+    "space-before-function-paren": false,
+    "eofline": false,
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-pascal-case"
+    ]
+  },
+  "rulesDirectory": []
+}

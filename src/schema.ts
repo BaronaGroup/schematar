@@ -1,5 +1,5 @@
-import ObjectId from './object-id'
 import Complex from './complex'
+import {ObjectId} from './object-id'
 
 export type DefaultContext = 'mongoose' | 'typescript' | 'jsonschema'
 
@@ -7,7 +7,7 @@ export interface Schema {
     fields: SchemaFields
 }
 
-type SimpleType = Symbol | Complex | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object
+type SimpleType = symbol | Complex | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object | typeof ObjectId
 type IndexOptions = false | true | 'unique' | 'unique-sparse'
 
 export type PlainType = SimpleType | Array<FieldInfo | SimpleType>
@@ -20,8 +20,8 @@ export interface FieldInfo {
     format?: any
     optional?: boolean
     allowNull?: boolean
-    presentIn?: Array<string>
-    optionalIn?: Array<string>
+    presentIn?: string[]
+    optionalIn?: string[]
     enum?: string[]
     mongooseDefault?: any
     mongooseRef?: string
