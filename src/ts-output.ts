@@ -4,8 +4,9 @@ import {ObjectId} from './object-id'
 import {generateHash} from './hash-schema'
 
 export interface TSOptions {
-  omitExtraExports?: boolean
+    omitExtraExports?: boolean
     exportHash?: string
+    doNotImportObjectId?: boolean
 }
 
 export default function(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
@@ -18,7 +19,9 @@ export default function(exportName: string, schema: Schema, context: string = 't
     for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
     output.push('}')
     if (!options.omitExtraExports) {
-        output.push(`import {ObjectId} from 'mongodb'`)
+        if (!options.doNotImportObjectId) {
+            output.push(`import {ObjectId} from 'mongodb'`)
+        }
         output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
         output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
         output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date>`)

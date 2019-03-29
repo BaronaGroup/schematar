@@ -44,6 +44,7 @@ interface TypescriptSchema {
   omitExtraExports?: boolean
   schema?: Schema
   exportHash?: string
+  doNotImportObjectId?: boolean
 }
 
 interface SchemaFile {
@@ -59,12 +60,16 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
   const topLevelName = schemaFile.name || pickNameFromFilename(filename)
   const exported: string[] = []
   if (schemaFile.typescriptSchemas) {
-    for (const schemaDef of schemaFile.typescriptSchemas) {
+    const typescriptSchemas = schemaFile.typescriptSchemas
+    for (const schemaDef of typescriptSchemas) {
       const schema = schemaDef.schema || topLevelSchema,
         name = schemaDef.name || topLevelName
 
       if (!schema) throw new Error('No schema found for ' + name)
-      exported.push(createTypescriptInterfaceDefinition(name, schema, schemaDef.context || 'typescript', schemaDef))
+      exported.push(createTypescriptInterfaceDefinition(name, schema, schemaDef.context || 'typescript', {
+        ...schemaDef,
+        doNotImportObjectId: schemaDef.doNotImportObjectId || typescriptSchemas.indexOf(schemaDef) > 0
+      }))
     }
   } else if (topLevelSchema) {
     exported.push(createTypescriptInterfaceDefinition(topLevelName, topLevelSchema))
