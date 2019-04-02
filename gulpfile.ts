@@ -16,5 +16,4 @@ function ts() {
     .pipe(gulp.dest('dist'))
 }
 
-
 export default gulp.series(clean, ts)

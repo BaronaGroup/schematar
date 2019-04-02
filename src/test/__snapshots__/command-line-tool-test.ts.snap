@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`command-line-tool-test can be used to set up typescript interface files 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface BananaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type BananaMongoose = BananaBase<ObjectId, Date>
+export type BananaJSON = BananaBase<string, string>
+export type BananaFluid = BananaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`command-line-tool-test can be used to set up typescript interface files 2`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface SimpleSchemaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type SimpleSchemaMongoose = SimpleSchemaBase<ObjectId, Date>
+export type SimpleSchemaJSON = SimpleSchemaBase<string, string>
+export type SimpleSchemaFluid = SimpleSchemaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`command-line-tool-test supports globs 1`] = `
+Array [
+  "exp-context-schema.schematar.ts",
+  "exp-name-schema.schematar.ts",
+  "exp-schema-schema.schematar.ts",
+]
+`;
+
+exports[`command-line-tool-test supports multiple globs 1`] = `
+Array [
+  "exp-context-schema.schematar.ts",
+  "exp-name-schema.schematar.ts",
+  "exp-schema-schema.schematar.ts",
+  "no-extra-exports-schema.schematar.ts",
+]
+`;

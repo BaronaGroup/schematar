@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`api-test createTypescriptInterfaceFiles explicit explicit context 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface ExpContextSchemaBase<IDType, DateType> {
+  field1: string
+  field2?: string
+  field3: string
+  field4: string
+}
+import {ObjectId} from 'mongodb'
+export type ExpContextSchemaMongoose = ExpContextSchemaBase<ObjectId, Date>
+export type ExpContextSchemaJSON = ExpContextSchemaBase<string, string>
+export type ExpContextSchemaFluid = ExpContextSchemaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles explicit explicit name 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface CustomNameBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type CustomNameMongoose = CustomNameBase<ObjectId, Date>
+export type CustomNameJSON = CustomNameBase<string, string>
+export type CustomNameFluid = CustomNameBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles explicit explicit schema 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface ExpSchemaSchemaBase<IDType, DateType> {
+  altField: number
+}
+import {ObjectId} from 'mongodb'
+export type ExpSchemaSchemaMongoose = ExpSchemaSchemaBase<ObjectId, Date>
+export type ExpSchemaSchemaJSON = ExpSchemaSchemaBase<string, string>
+export type ExpSchemaSchemaFluid = ExpSchemaSchemaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles explicit export schema hash 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface ExportHashSchemaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type ExportHashSchemaMongoose = ExportHashSchemaBase<ObjectId, Date>
+export type ExportHashSchemaJSON = ExportHashSchemaBase<string, string>
+export type ExportHashSchemaFluid = ExportHashSchemaBase<string | ObjectId, string | Date>
+export const mySchemaHash = '5d3861b32891d91c94cafb81aa1f821ae442e516d406e1e3bea47f6cb312b11f'"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles explicit multiple schemas 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface MultipleSchemasSchemaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type MultipleSchemasSchemaMongoose = MultipleSchemasSchemaBase<ObjectId, Date>
+export type MultipleSchemasSchemaJSON = MultipleSchemasSchemaBase<string, string>
+export type MultipleSchemasSchemaFluid = MultipleSchemasSchemaBase<string | ObjectId, string | Date>
+// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface AlternativeBase<IDType, DateType> {
+  another: number
+}
+export type AlternativeMongoose = AlternativeBase<ObjectId, Date>
+export type AlternativeJSON = AlternativeBase<string, string>
+export type AlternativeFluid = AlternativeBase<string | ObjectId, string | Date>
+export const anotherHash = '5769d7ffccddeec74191da4ca235bf7efb58994cb7635815af5d02ae8008c610'
+// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface FinalBase<IDType, DateType> {
+  field: string
+  finalField: string
+}
+export type FinalMongoose = FinalBase<ObjectId, Date>
+export type FinalJSON = FinalBase<string, string>
+export type FinalFluid = FinalBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles explicit omit extra exports 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface NoExtraExportsSchemaBase<IDType, DateType> {
+  field: string
+}"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles implicit simple case 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface SimpleSchemaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type SimpleSchemaMongoose = SimpleSchemaBase<ObjectId, Date>
+export type SimpleSchemaJSON = SimpleSchemaBase<string, string>
+export type SimpleSchemaFluid = SimpleSchemaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles implicit simple case with default export 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface DefaultSchemaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type DefaultSchemaMongoose = DefaultSchemaBase<ObjectId, Date>
+export type DefaultSchemaJSON = DefaultSchemaBase<string, string>
+export type DefaultSchemaFluid = DefaultSchemaBase<string | ObjectId, string | Date>"
+`;
+
+exports[`api-test createTypescriptInterfaceFiles implicit simple case with explicit name 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface BananaBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type BananaMongoose = BananaBase<ObjectId, Date>
+export type BananaJSON = BananaBase<string, string>
+export type BananaFluid = BananaBase<string | ObjectId, string | Date>"
+`;

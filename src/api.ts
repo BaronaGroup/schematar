@@ -19,7 +19,7 @@ export const now = nowToken
 const log = karhu('schematar-api')
 
 export function createMongooseSchema(schema: Schema, context = 'mongoose') {
-  return mongooseOutput(schema)
+  return mongooseOutput(schema, context)
 }
 
 export function createTypescriptInterfaceDefinition(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
@@ -32,7 +32,7 @@ export function createJSONSchema(schema: Schema, context: string = 'jsonschema',
 
 export async function createTypescriptInterfaceFiles(sourceFileGlobOrFileArray: string | string[], outputPath: string, logCreations = false) {
   await new Promise((resolve, reject) => mkdirp(outputPath, (err => !err ? resolve() : reject(err))))
-  const files = Array.isArray(sourceFileGlobOrFileArray) ? sourceFileGlobOrFileArray : glob.sync(sourceFileGlobOrFileArray)
+  const files = [].concat(...Array.isArray(sourceFileGlobOrFileArray) ? sourceFileGlobOrFileArray.map(f => glob.sync(f)) : [glob.sync(sourceFileGlobOrFileArray)])
   for (const file of files) {
     await createTSInterfaceFile(file, outputPath, logCreations)
   }
@@ -83,12 +83,16 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
     log.info('Storing typescript interfaces in', outputFilename)
   }
 
-  await new Promise((resolve, reject) => fs.writeFile(outputFilename, exported.join('\n'), 'utf8', err => !err ? resolve() : reject(err)))
+  if (exported.length) {
+    await new Promise((resolve, reject) => fs.writeFile(outputFilename, exported.join('\n'), 'utf8', err => !err ? resolve() : reject(err)))
+  }
 }
 
 function pickNameFromFilename(filename: string) {
   const fn = path.basename(filename, path.extname(filename))
-  return fn[0].toUpperCase() + fn.substring(1)
+  return (fn[0].toUpperCase() + fn.substring(1))
+    .replace(/[\-_][a-z]/g, match => match[1].toUpperCase())
+    .replace(/[^a-zA-Z0-9]/g, '')
 }
 
 export function hashSchema(schema: Schema) {

@@ -24,7 +24,11 @@ interface JSONSchemaAnyProperty {
 
 }
 
-type JSONSchemaProperty = JSONSchemaSimpleProperty | JSONSchemaObjectProperty | JSONSchemaStringProperty | JSONSchemaArrayProperty | JSONSchemaAnyProperty
+interface JSONSchemaMultiTypeProperty {
+    type: string[]
+}
+
+export type JSONSchemaProperty = JSONSchemaSimpleProperty | JSONSchemaObjectProperty | JSONSchemaStringProperty | JSONSchemaArrayProperty | JSONSchemaAnyProperty | JSONSchemaMultiTypeProperty
 
 interface JSONSchemaProperties {
     [key: string]: JSONSchemaProperty
@@ -88,6 +92,14 @@ function outputFieldFormat(field: Field, context: string, makeEverythingOptional
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
         const prop = asJSONSchemaProperty(field.type, context, makeEverythingOptional)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
+        if (field.allowNull) {
+            const chosenType = (prop as any).type
+            if (typeof chosenType !== 'string') throw new Error('Cannot use allowNull when base type is an array')
+            return {
+                ...prop,
+                type: [chosenType, 'null']
+            }
+        }
         return prop
 
     } else {

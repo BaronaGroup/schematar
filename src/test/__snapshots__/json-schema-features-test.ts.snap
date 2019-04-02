@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`json-schema-features allowAdditionalFields deep 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"topLevel\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"deep1\\": {
+      \\"type\\": \\"array\\",
+      \\"items\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [
+          \\"key\\"
+        ],
+        \\"properties\\": {
+          \\"key\\": {
+            \\"type\\": \\"number\\"
+          }
+        },
+        \\"additionalProperties\\": false
+      }
+    },
+    \\"deep2\\": {
+      \\"type\\": \\"object\\",
+      \\"required\\": [
+        \\"key2\\",
+        \\"deep2\\"
+      ],
+      \\"properties\\": {
+        \\"key2\\": {
+          \\"type\\": \\"number\\"
+        },
+        \\"deep2\\": {
+          \\"type\\": \\"object\\",
+          \\"required\\": [
+            \\"key3\\"
+          ],
+          \\"properties\\": {
+            \\"key3\\": {
+              \\"type\\": \\"number\\"
+            }
+          },
+          \\"additionalProperties\\": false
+        }
+      },
+      \\"additionalProperties\\": false
+    }
+  },
+  \\"required\\": [
+    \\"topLevel\\",
+    \\"deep1\\",
+    \\"deep2\\"
+  ],
+  \\"additionalProperties\\": true
+}"
+`;
+
+exports[`json-schema-features allowAdditionalFields shallow 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"field2\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": [
+    \\"field\\",
+    \\"field2\\"
+  ],
+  \\"additionalProperties\\": true
+}"
+`;
+
+exports[`json-schema-features allowNull 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": [
+        \\"string\\",
+        \\"null\\"
+      ]
+    }
+  },
+  \\"required\\": []
+}"
+`;
+
+exports[`json-schema-features makeEverythingOptional deep 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"topLevel\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"deep1\\": {
+      \\"type\\": \\"array\\",
+      \\"items\\": {
+        \\"type\\": \\"object\\",
+        \\"required\\": [],
+        \\"properties\\": {
+          \\"key\\": {
+            \\"type\\": \\"number\\"
+          }
+        },
+        \\"additionalProperties\\": false
+      }
+    },
+    \\"deep2\\": {
+      \\"type\\": \\"object\\",
+      \\"required\\": [],
+      \\"properties\\": {
+        \\"key2\\": {
+          \\"type\\": \\"number\\"
+        },
+        \\"deep2\\": {
+          \\"type\\": \\"object\\",
+          \\"required\\": [],
+          \\"properties\\": {
+            \\"key3\\": {
+              \\"type\\": \\"number\\"
+            }
+          },
+          \\"additionalProperties\\": false
+        }
+      },
+      \\"additionalProperties\\": false
+    }
+  },
+  \\"required\\": []
+}"
+`;
+
+exports[`json-schema-features makeEverythingOptional shallow 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"string\\"
+    },
+    \\"field2\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": []
+}"
+`;
+
+exports[`json-schema-features schemaId 1`] = `
+"{
+  \\"$id\\": \\"myschema\\",
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": [
+        \\"string\\",
+        \\"null\\"
+      ]
+    }
+  },
+  \\"required\\": []
+}"
+`;

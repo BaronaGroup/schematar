@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`date-test basic type json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"string\\",
+      \\"pattern\\": \\"^\\\\\\\\d\\\\\\\\d\\\\\\\\d\\\\\\\\d-\\\\\\\\d\\\\\\\\d-\\\\\\\\d\\\\\\\\dT\\\\\\\\d\\\\\\\\d:\\\\\\\\d\\\\\\\\d:\\\\\\\\d\\\\\\\\d\\\\\\\\.\\\\\\\\d\\\\\\\\d\\\\\\\\d(Z|[+-]\\\\\\\\d\\\\\\\\d:?\\\\\\\\d\\\\\\\\d)$\\"
+    }
+  },
+  \\"required\\": [
+    \\"field\\"
+  ]
+}"
+`;
+
+exports[`date-test basic type typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: DateType
+}"
+`;

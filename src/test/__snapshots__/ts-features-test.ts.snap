@@ -1,0 +1,63 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ts-features allowNull 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field?: string | null
+}"
+`;
+
+exports[`ts-features doNotImportObjectId 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: string
+}
+export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
+export type TestInterfaceJSON = TestInterfaceBase<string, string>
+export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | Date>"
+`;
+
+exports[`ts-features exportHash 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
+export type TestInterfaceJSON = TestInterfaceBase<string, string>
+export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | Date>
+export const hashField = '5d3861b32891d91c94cafb81aa1f821ae442e516d406e1e3bea47f6cb312b11f'"
+`;
+
+exports[`ts-features omitExtraExports (false) 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: string
+}
+import {ObjectId} from 'mongodb'
+export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
+export type TestInterfaceJSON = TestInterfaceBase<string, string>
+export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | Date>"
+`;
+
+exports[`ts-features omitExtraExports (true) 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: string
+}"
+`;

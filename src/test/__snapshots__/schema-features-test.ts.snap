@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schema-features-test optional json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": []
+}"
+`;
+
+exports[`schema-features-test optional typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field?: number
+}"
+`;
+
+exports[`schema-features-test optionalIn match json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": []
+}"
+`;
+
+exports[`schema-features-test optionalIn match typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field?: number
+}
+import {ObjectId} from 'mongodb'
+export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
+export type TestInterfaceJSON = TestInterfaceBase<string, string>
+export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | Date>"
+`;
+
+exports[`schema-features-test optionalIn no match json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": [
+    \\"field\\"
+  ]
+}"
+`;
+
+exports[`schema-features-test optionalIn no match typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: number
+}"
+`;
+
+exports[`schema-features-test presentIn match json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"number\\"
+    }
+  },
+  \\"required\\": [
+    \\"field\\"
+  ]
+}"
+`;
+
+exports[`schema-features-test presentIn match typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+  field: number
+}
+import {ObjectId} from 'mongodb'
+export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
+export type TestInterfaceJSON = TestInterfaceBase<string, string>
+export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | Date>"
+`;
+
+exports[`schema-features-test presentIn no match json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {},
+  \\"required\\": []
+}"
+`;
+
+exports[`schema-features-test presentIn no match typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType> {
+}"
+`;
