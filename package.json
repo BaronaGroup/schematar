@@ -43,6 +43,7 @@
     "scripts": {
         "build": "gulp",
         "tslint": "tslint --project tsconfig.json",
+        "lint": "npm run tslint",
         "test": "jest",
         "prepare": "npm run build",
         "release": "npm test && npm-release"
