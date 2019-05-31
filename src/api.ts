@@ -38,7 +38,7 @@ export async function createTypescriptInterfaceFiles(sourceFileGlobOrFileArray: 
   }
 }
 
-interface TypescriptSchema {
+export interface TypescriptSchemaDefinition {
   name: string,
   context?: string,
   omitExtraExports?: boolean
@@ -51,7 +51,7 @@ interface SchemaFile {
   name?: string
   default?: Schema
   schema?: Schema
-  typescriptSchemas?: TypescriptSchema[]
+  typescriptSchemas?: TypescriptSchemaDefinition[]
 }
 
 async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean = true) {
