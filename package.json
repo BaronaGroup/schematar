@@ -28,7 +28,7 @@
         "npm-release": "1.0.0",
         "ts-jest": "24.0.2",
         "ts-node-dev": "1.0.0-pre.39",
-        "tslint": "5.16.0",
+        "tslint": "5.17.0",
         "typescript": "3.5.1"
     },
     "dependencies": {
