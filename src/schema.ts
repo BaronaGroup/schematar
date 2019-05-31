@@ -7,7 +7,7 @@ export interface Schema {
     fields: SchemaFields
 }
 
-type SimpleType = Symbol | Complex | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object | typeof ObjectId // tslint:disable-line:ban-types
+type SimpleType = Complex | typeof String | typeof Number | typeof Boolean | typeof Date | typeof Object | typeof ObjectId // tslint:disable-line:ban-types
 type IndexOptions = false | true | 'unique' | 'unique-sparse'
 
 export type PlainType = SimpleType | Array<FieldInfo | SimpleType>
