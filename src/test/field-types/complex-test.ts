@@ -15,7 +15,7 @@ describe('complex-test', function() {
     }))
 
     it('mongoose', testMongooseField(schema, 'field', field => {
-      expect(field).toEqual({type: {innerField: {type: Number}}})
+      expect(field).toEqual({innerField: {type: Number}})
     }))
 
     it('typescript', testTypescriptInterface(schema, tsInterface => {

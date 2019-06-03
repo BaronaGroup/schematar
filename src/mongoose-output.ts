@@ -39,8 +39,12 @@ function outputFields(fields: SchemaFields, context: string): MongooseFields {
 
 function outputFieldFormat(field: Field, context: string): MongooseField {
   if (isFullDeclaration(field)) {
+
     const outField: MongooseField = {
       type: asMongooseType(field.type, context)
+    }
+    if (field.type instanceof Complex) {
+      return outField.type
     }
     if (field.index === true) {
       outField.index = true
@@ -68,6 +72,9 @@ function outputFieldFormat(field: Field, context: string): MongooseField {
     }
     return omitUndefined(outField)
   } else {
+    if (field instanceof Complex) {
+      return asMongooseType(field, context)
+    }
     return {type: asMongooseType(field, context)}
   }
 }
@@ -84,7 +91,11 @@ function asMongooseType<Context>(type: PlainType, context: string): any {
     return outputFields(type.subschema, context)
   }
   if (type instanceof Array) {
-    return type.map(subtype => outputFieldFormat(subtype, context).type)
+
+    return type.map(subtype => {
+      const innerType = outputFieldFormat(subtype, context)
+      return innerType.type ? innerType.type : innerType
+    })
   }
   throw new Error('Unsupported type for mongoose schema ' + type)
 }
