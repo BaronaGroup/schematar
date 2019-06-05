@@ -1,5 +1,6 @@
 import {createTypescriptInterfaceFiles} from '../api'
 import fs from 'fs'
+import mkdirp = require('mkdirp')
 
 const isOutputFile = /\.schematar\.ts$/
 
@@ -33,6 +34,8 @@ describe('api-test', function() {
       it('export schema hash', testOutputSnapshot('export-hash'))
 
       it('multiple schemas', testOutputSnapshot('multiple-schemas'))
+
+      it('supports using complex in place of the schema', testOutputSnapshot('complex-as-schema'))
     })
   })
 
@@ -51,7 +54,7 @@ describe('api-test', function() {
 
 async function prepareOutputDirectory(dir: string) {
   if (!fs.existsSync(dir)) {
-    fs.mkdirSync(dir)
+    mkdirp.sync(dir)
   }
   for (const file of fs.readdirSync(dir)) {
     const ffn = `${dir}/${file}`

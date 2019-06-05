@@ -5,7 +5,8 @@ exports[`command-line-tool-test can be used to set up typescript interface files
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface BananaBase<IDType, DateType> {
+export interface BananaBase<IDType, DateType>
+{
   field: string
 }
 import {ObjectId} from 'mongodb'
@@ -19,7 +20,8 @@ exports[`command-line-tool-test can be used to set up typescript interface files
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface SimpleSchemaBase<IDType, DateType> {
+export interface SimpleSchemaBase<IDType, DateType>
+{
   field: string
 }
 import {ObjectId} from 'mongodb'

@@ -3,7 +3,10 @@ import {ObjectId} from './object-id'
 import Complex from './complex'
 import crypto from 'crypto'
 
-export function generateHash(schema: Schema) {
+export function generateHash(schema: Schema | Complex): string {
+  if (schema instanceof Complex) {
+    return generateHash({fields: schema.subschema})
+  }
   const string = [...fieldsToStrings(schema.fields)].join('\n')
   return hashString(string)
 }

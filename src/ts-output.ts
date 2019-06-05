@@ -9,15 +9,22 @@ export interface TSOptions {
     doNotImportObjectId?: boolean
 }
 
-export default function(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
+export default function(exportName: string, schema: Schema | Complex, context: string = 'typescript', options: TSOptions = {}) {
     const output: string[] = []
     output.push('// Generated file, do not edit!')
     output.push('')
     output.push('// tslint:disable array-type')
     output.push('// @ts-ignore -- ignore possibly unused type parameters')
-    output.push(`export interface ${exportName}Base<IDType, DateType> {`)
-    for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
-    output.push('}')
+    output.push(`export interface ${exportName}Base<IDType, DateType>`)
+    if (schema instanceof Complex) {
+        output.push(schema.outputTypescript(context, '  ', null))
+    } else {
+        output.push('{')
+        for (const field of outputFields(schema.fields, context, '  ')) {
+            output.push(field)
+        }
+        output.push('}')
+    }
     if (!options.omitExtraExports) {
         if (!options.doNotImportObjectId) {
             output.push(`import {ObjectId} from 'mongodb'`)
@@ -28,14 +35,14 @@ export default function(exportName: string, schema: Schema, context: string = 't
     }
     const {exportHash} = options
     if (exportHash) {
-        const hash = generateHash(schema)
+        const hash = generateHash(schema instanceof Complex ? {fields: schema.subschema} : schema)
         output.push(`export const ${exportHash} = '${hash}'`)
     }
 
     return output.join('\n')
 }
 
-function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
+export function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
         const presentIn: string[] | undefined = (field as any).presentIn
@@ -67,15 +74,16 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         if (field.enum) {
             yield field.enum.map(f => '\'' + f.replace(/'/g, '\\\'') + '\'').join(' | ')
         } else {
-          yield asTSType(field.type, context, indentation)
+          yield asTSType(field, context, indentation)
         }
 
     } else {
-        yield asTSType(field, context, indentation)
+        yield asTSType({type: field}, context, indentation)
     }
 }
 
-function asTSType<Context>(type: PlainType, context: string, indentation: string): string {
+function asTSType<Context>(field: FieldInfo, context: string, indentation: string): string {
+    const {type} = field
     if (type === ObjectId) return 'IDType'
     if (type === String) return 'string'
     if (type === Date) return 'DateType'
@@ -84,7 +92,7 @@ function asTSType<Context>(type: PlainType, context: string, indentation: string
     if (type === Object) return 'any'
 
     if (type instanceof Complex) {
-        return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
+        return type.outputTypescript(context, indentation, field)
     }
     if (type instanceof Array) {
         // TODO: support complex types

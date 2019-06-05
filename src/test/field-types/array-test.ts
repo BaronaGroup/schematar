@@ -21,6 +21,24 @@ describe('array-test', function() {
     }))
   })
 
+  describe('array of simple values defined with options', function() {
+    const schema: Schema = {fields: {
+      field: [{type: Number, index: true}]
+    }}
+
+    it('json-schema', testJSONSchema(schema, data => {
+      expect(data).toMatchSnapshot()
+    }))
+
+    it('mongoose', testMongooseField(schema, 'field', field => {
+      expect(field).toEqual({type: [Number]})
+    }))
+
+    it('typescript', testTypescriptInterface(schema, tsInterface => {
+      expect(tsInterface).toMatchSnapshot()
+    }))
+  })
+
   describe('array of complex values', function() {
     const schema: Schema = {fields: {
       field: [new Complex({

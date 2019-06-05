@@ -5,7 +5,8 @@ exports[`ts-features allowNull 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field?: string | null
 }"
 `;
@@ -15,7 +16,8 @@ exports[`ts-features doNotImportObjectId 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: string
 }
 export type TestInterfaceMongoose = TestInterfaceBase<ObjectId, Date>
@@ -28,7 +30,8 @@ exports[`ts-features exportHash 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: string
 }
 import {ObjectId} from 'mongodb'
@@ -43,7 +46,8 @@ exports[`ts-features omitExtraExports (false) 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: string
 }
 import {ObjectId} from 'mongodb'
@@ -57,7 +61,8 @@ exports[`ts-features omitExtraExports (true) 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: string
 }"
 `;

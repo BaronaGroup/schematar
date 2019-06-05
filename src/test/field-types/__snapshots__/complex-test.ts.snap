@@ -29,9 +29,36 @@ exports[`complex-test basic type typescript 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: {
     innerField: number
   }
+}"
+`;
+
+exports[`complex-test can be inherited to override output behavior json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"custom-json\\"
+    }
+  },
+  \\"required\\": [
+    \\"field\\"
+  ]
+}"
+`;
+
+exports[`complex-test can be inherited to override output behavior typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable array-type
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  field: TSCustom
 }"
 `;

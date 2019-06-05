@@ -1,3 +1,9 @@
+# 1.3.0
+
+- Complex can now be subclassed and the subclasses can modify the output
+- Explicit exports for typescriptSchemas can have a complex as the schema
+- hashSchema can be called on complexes
+
 # 1.2.0
 
 - Some dependency updates
