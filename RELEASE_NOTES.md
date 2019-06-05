@@ -1,3 +1,7 @@
+# 1.3.1
+
+- Generated typescript interface files have tslint and eslint completely disabled
+
 # 1.3.0
 
 - Complex can now be subclassed and the subclasses can modify the output
