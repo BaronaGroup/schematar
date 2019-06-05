@@ -35,7 +35,7 @@ export default function(exportName: string, schema: Schema, context: string = 't
     return output.join('\n')
 }
 
-function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
+export function* outputFields(fields: SchemaFields, context: string, indentation: string): IterableIterator<string> {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
         const presentIn: string[] | undefined = (field as any).presentIn
@@ -67,15 +67,16 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         if (field.enum) {
             yield field.enum.map(f => '\'' + f.replace(/'/g, '\\\'') + '\'').join(' | ')
         } else {
-          yield asTSType(field.type, context, indentation)
+          yield asTSType(field, context, indentation)
         }
 
     } else {
-        yield asTSType(field, context, indentation)
+        yield asTSType({type: field}, context, indentation)
     }
 }
 
-function asTSType<Context>(type: PlainType, context: string, indentation: string): string {
+function asTSType<Context>(field: FieldInfo, context: string, indentation: string): string {
+    const {type} = field
     if (type === ObjectId) return 'IDType'
     if (type === String) return 'string'
     if (type === Date) return 'DateType'
@@ -84,7 +85,7 @@ function asTSType<Context>(type: PlainType, context: string, indentation: string
     if (type === Object) return 'any'
 
     if (type instanceof Complex) {
-        return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
+        return type.generateTypescript(context, indentation, field)
     }
     if (type instanceof Array) {
         // TODO: support complex types

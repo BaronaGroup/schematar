@@ -34,7 +34,7 @@ interface JSONSchemaProperties {
     [key: string]: JSONSchemaProperty
 }
 
-interface JSONSchemaObjectProperty {
+export interface JSONSchemaObjectProperty {
     type: 'object'
     properties: JSONSchemaProperties
     required: string[],
@@ -68,7 +68,7 @@ export default function(schema: Schema, context: string = 'jsonschema', options:
     return base
 }
 
-function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, makeEverythingOptional: boolean) {
+export function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, makeEverythingOptional: boolean) {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
         const presentIn: string[] | undefined = (field as any).presentIn
@@ -90,7 +90,7 @@ function isOptional(field: any, context: string) {
 function outputFieldFormat(field: Field, context: string, makeEverythingOptional: boolean) {
     if (isFullDeclaration(field)) {
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
-        const prop = asJSONSchemaProperty(field.type, context, makeEverythingOptional)
+        const prop = asJSONSchemaProperty(field, context, makeEverythingOptional)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
         if (field.allowNull) {
             const chosenType = (prop as any).type
@@ -103,11 +103,12 @@ function outputFieldFormat(field: Field, context: string, makeEverythingOptional
         return prop
 
     } else {
-        return asJSONSchemaProperty(field, context, makeEverythingOptional)
+        return asJSONSchemaProperty({type: field}, context, makeEverythingOptional)
     }
 }
 
-function asJSONSchemaProperty(type: PlainType, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
+function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
+    const {type} = field
     if (type === ObjectId) return {type: 'string', pattern: '^[a-fA-F0-9]{24}$'}
     if (type === String) return {type: 'string'}
     if (type === Date) {
@@ -117,14 +118,8 @@ function asJSONSchemaProperty(type: PlainType, context: string, makeEverythingOp
     if (type === Number) return {type: 'number'}
     if (type === Object) return {}
     if (type instanceof Complex) {
-        const subschema: JSONSchemaObjectProperty = {
-            type: 'object',
-            required: [],
-            properties: {},
-            additionalProperties: false
-        }
-        outputFields(type.subschema, context, subschema, makeEverythingOptional)
-        return subschema
+        return type.outputJSONSchema(context, makeEverythingOptional, field)
+
     }
     if (type instanceof Array) {
         const outtype = outputFieldFormat(type[0], context, makeEverythingOptional)

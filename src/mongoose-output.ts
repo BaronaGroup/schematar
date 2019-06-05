@@ -20,11 +20,13 @@ interface MongooseField {
   expires?: string
 }
 
+export type MongooseTypeBase = { type: any} | { plain: any}
+
 export default function (schema: Schema, context: string = 'mongoose') {
   return outputFields(schema.fields, context)
 }
 
-function outputFields(fields: SchemaFields, context: string): MongooseFields {
+export function outputFields(fields: SchemaFields, context: string): MongooseFields {
   const outFields: MongooseFields = {}
   for (const [key, field1] of Object.entries(fields)) {
     const field = field1 as Field
@@ -40,12 +42,12 @@ function outputFields(fields: SchemaFields, context: string): MongooseFields {
 function outputFieldFormat(field: Field, context: string): MongooseField {
   if (isFullDeclaration(field)) {
 
-    const outField: MongooseField = {
-      type: asMongooseType(field.type, context)
+    const typeBase: MongooseTypeBase = asMongooseTypeBase(field, context)
+
+    if (!('type' in typeBase)) {
+      return typeBase.plain
     }
-    if (field.type instanceof Complex) {
-      return outField.type
-    }
+    const outField: MongooseField = {...typeBase}
     if (field.index === true) {
       outField.index = true
     } else if (field.index === 'unique') {
@@ -72,30 +74,32 @@ function outputFieldFormat(field: Field, context: string): MongooseField {
     }
     return omitUndefined(outField)
   } else {
-    if (field instanceof Complex) {
-      return asMongooseType(field, context)
-    }
-    return {type: asMongooseType(field, context)}
+    const typeBase = asMongooseTypeBase({type: field}, context)
+    if ('type' in typeBase) return typeBase
+    return typeBase.plain
   }
 }
 
-function asMongooseType<Context>(type: PlainType, context: string): any {
-  if (type === ObjectId) return mongoose.Schema.Types.ObjectId
-  if (type === String) return type
-  if (type === Boolean) return type
-  if (type === Number) return type
-  if (type === Object) return type
-  if (type === Date) return type
+function asMongooseTypeBase<Context>(field: FieldInfo, context: string): MongooseTypeBase {
+  const {type} = field
+  if (type === ObjectId) return {type: mongoose.Schema.Types.ObjectId}
+  if (type === String) return {type}
+  if (type === Boolean) return {type}
+  if (type === Number) return {type}
+  if (type === Object) return {type}
+  if (type === Date) return {type}
 
   if (type instanceof Complex) {
-    return outputFields(type.subschema, context)
+    return type.outputMongoose(context, field)
+
   }
   if (type instanceof Array) {
-
-    return type.map(subtype => {
-      const innerType = outputFieldFormat(subtype, context)
-      return innerType.type ? innerType.type : innerType
-    })
+    return {
+      type: type.map(subtype => {
+        const innerType = outputFieldFormat(subtype, context)
+        return innerType.type ? innerType.type : innerType
+      })
+    }
   }
   throw new Error('Unsupported type for mongoose schema ' + type)
 }
