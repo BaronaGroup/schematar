@@ -268,6 +268,65 @@ hexadecimal digit string form. In typescript interfaces the concrete type of the
 | ----------- | ------- | ------------------------------------------------------------- |
 | mongooseRef | string? | Sets up the mongoose `ref` option for the field to this value |
 
+#### Other
+
+For less common needs it is possible to provide custom output by subclassing the `Complex` class and overriding some
+or all of its methods. The functions can always call the corresponding method of their superclass to get the default output.
+
+There are methods for each of the output types:
+
+##### outputTypescript
+
+Return type: string
+
+Parameters
+
+| Name        | Type    | Description                                                        |
+| ----------- | ------- | ------------------------------------------------------------------ |
+| context     | string  | The context the output is for                                      |
+| indentation | string  | Expected indentation for whatever is returner                      |
+| _field      | object  | Reference to the raw field object present in the schema definition |
+
+
+##### outputMongoose
+
+Return type: object; either {type: mongooseFieldType} or {plain: mongooseFieldDefinition}
+where the former just becomes a part of a mongoose field definition and the latter is the whole
+field definition.
+
+Parameters
+
+| Name        | Type    | Description                                                        |
+| ----------- | ------- | ------------------------------------------------------------------ |
+| context     | string  | The context the output is for                                      |
+| _field      | object  | Reference to the raw field object present in the schema definition |
+
+
+##### outputJSONSchema
+
+Return type: object, JSON-schema property
+
+Parameters
+
+| Name        | Type                    | Description                                                        |
+| ----------- | ----------------------- | ------------------------------------------------------------------ |
+| context     | string                  | The context the output is for                                      |
+| context     | makeEverythingOptional  | Current value for the config setting                               |
+| _field      | object                  | Reference to the raw field object present in the schema definition |
+
+##### Example
+
+    class AnyInTypescript extends Complex {
+        constructor() { 
+            super({})
+        }
+        
+        outputTypescript() {
+            return 'any'
+        }
+    }
+
+
 ### Any / unspecified
 
     const schema = { fields: {field: Object }}
