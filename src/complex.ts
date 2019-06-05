@@ -14,7 +14,7 @@ export default class Complex {
     this.subschema = subschema
   }
 
-  public generateTypescript(context: string, indentation: string, _field: FieldInfo) {
+  public outputTypescript(context: string, indentation: string, _field: FieldInfo) {
     return '{\n' + [...outputTSFields(this.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
   }
 

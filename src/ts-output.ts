@@ -85,7 +85,7 @@ function asTSType<Context>(field: FieldInfo, context: string, indentation: strin
     if (type === Object) return 'any'
 
     if (type instanceof Complex) {
-        return type.generateTypescript(context, indentation, field)
+        return type.outputTypescript(context, indentation, field)
     }
     if (type instanceof Array) {
         // TODO: support complex types
