@@ -19,7 +19,8 @@ exports[`object-id-test basic type json-schema 1`] = `
 exports[`object-id-test basic type typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {

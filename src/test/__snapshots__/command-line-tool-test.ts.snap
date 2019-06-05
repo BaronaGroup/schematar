@@ -3,7 +3,8 @@
 exports[`command-line-tool-test can be used to set up typescript interface files 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface BananaBase<IDType, DateType>
 {
@@ -18,7 +19,8 @@ export type BananaFluid = BananaBase<string | ObjectId, string | Date>"
 exports[`command-line-tool-test can be used to set up typescript interface files 2`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface SimpleSchemaBase<IDType, DateType>
 {

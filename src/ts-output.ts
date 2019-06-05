@@ -13,7 +13,8 @@ export default function(exportName: string, schema: Schema | Complex, context: s
     const output: string[] = []
     output.push('// Generated file, do not edit!')
     output.push('')
-    output.push('// tslint:disable array-type')
+    output.push('// tslint:disable')
+    output.push('/* eslint-disable */')
     output.push('// @ts-ignore -- ignore possibly unused type parameters')
     output.push(`export interface ${exportName}Base<IDType, DateType>`)
     if (schema instanceof Complex) {

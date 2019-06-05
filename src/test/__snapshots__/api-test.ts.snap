@@ -3,7 +3,8 @@
 exports[`api-test createTypescriptInterfaceFiles explicit explicit context 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface ExpContextSchemaBase<IDType, DateType>
 {
@@ -21,7 +22,8 @@ export type ExpContextSchemaFluid = ExpContextSchemaBase<string | ObjectId, stri
 exports[`api-test createTypescriptInterfaceFiles explicit explicit name 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface CustomNameBase<IDType, DateType>
 {
@@ -36,7 +38,8 @@ export type CustomNameFluid = CustomNameBase<string | ObjectId, string | Date>"
 exports[`api-test createTypescriptInterfaceFiles explicit explicit schema 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface ExpSchemaSchemaBase<IDType, DateType>
 {
@@ -51,7 +54,8 @@ export type ExpSchemaSchemaFluid = ExpSchemaSchemaBase<string | ObjectId, string
 exports[`api-test createTypescriptInterfaceFiles explicit export schema hash 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface ExportHashSchemaBase<IDType, DateType>
 {
@@ -67,7 +71,8 @@ export const mySchemaHash = '5d3861b32891d91c94cafb81aa1f821ae442e516d406e1e3bea
 exports[`api-test createTypescriptInterfaceFiles explicit multiple schemas 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface MultipleSchemasSchemaBase<IDType, DateType>
 {
@@ -79,7 +84,8 @@ export type MultipleSchemasSchemaJSON = MultipleSchemasSchemaBase<string, string
 export type MultipleSchemasSchemaFluid = MultipleSchemasSchemaBase<string | ObjectId, string | Date>
 // Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface AlternativeBase<IDType, DateType>
 {
@@ -91,7 +97,8 @@ export type AlternativeFluid = AlternativeBase<string | ObjectId, string | Date>
 export const anotherHash = '5769d7ffccddeec74191da4ca235bf7efb58994cb7635815af5d02ae8008c610'
 // Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface FinalBase<IDType, DateType>
 {
@@ -106,7 +113,8 @@ export type FinalFluid = FinalBase<string | ObjectId, string | Date>"
 exports[`api-test createTypescriptInterfaceFiles explicit omit extra exports 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface NoExtraExportsSchemaBase<IDType, DateType>
 {
@@ -117,7 +125,8 @@ export interface NoExtraExportsSchemaBase<IDType, DateType>
 exports[`api-test createTypescriptInterfaceFiles explicit supports using complex in place of the schema 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface CustomNameBase<IDType, DateType>
 {
@@ -133,7 +142,8 @@ export type CustomNameFluid = CustomNameBase<string | ObjectId, string | Date>"
 exports[`api-test createTypescriptInterfaceFiles implicit simple case 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface SimpleSchemaBase<IDType, DateType>
 {
@@ -148,7 +158,8 @@ export type SimpleSchemaFluid = SimpleSchemaBase<string | ObjectId, string | Dat
 exports[`api-test createTypescriptInterfaceFiles implicit simple case with default export 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface DefaultSchemaBase<IDType, DateType>
 {
@@ -163,7 +174,8 @@ export type DefaultSchemaFluid = DefaultSchemaBase<string | ObjectId, string | D
 exports[`api-test createTypescriptInterfaceFiles implicit simple case with explicit name 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface BananaBase<IDType, DateType>
 {

@@ -3,7 +3,8 @@
 exports[`ts-features allowNull 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -14,7 +15,8 @@ export interface TestInterfaceBase<IDType, DateType>
 exports[`ts-features doNotImportObjectId 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -28,7 +30,8 @@ export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | D
 exports[`ts-features exportHash 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -44,7 +47,8 @@ export const hashField = '5d3861b32891d91c94cafb81aa1f821ae442e516d406e1e3bea47f
 exports[`ts-features omitExtraExports (false) 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -59,7 +63,8 @@ export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | D
 exports[`ts-features omitExtraExports (true) 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {

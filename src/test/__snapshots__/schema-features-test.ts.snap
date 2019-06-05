@@ -16,7 +16,8 @@ exports[`schema-features-test optional json-schema 1`] = `
 exports[`schema-features-test optional typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -40,7 +41,8 @@ exports[`schema-features-test optionalIn match json-schema 1`] = `
 exports[`schema-features-test optionalIn match typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -70,7 +72,8 @@ exports[`schema-features-test optionalIn no match json-schema 1`] = `
 exports[`schema-features-test optionalIn no match typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -96,7 +99,8 @@ exports[`schema-features-test presentIn match json-schema 1`] = `
 exports[`schema-features-test presentIn match typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -120,7 +124,8 @@ exports[`schema-features-test presentIn no match json-schema 1`] = `
 exports[`schema-features-test presentIn no match typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {

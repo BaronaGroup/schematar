@@ -27,7 +27,8 @@ exports[`complex-test basic type json-schema 1`] = `
 exports[`complex-test basic type typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -55,7 +56,8 @@ exports[`complex-test can be inherited to override output behavior json-schema 1
 exports[`complex-test can be inherited to override output behavior typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {

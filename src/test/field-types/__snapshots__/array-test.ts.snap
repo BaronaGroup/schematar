@@ -30,7 +30,8 @@ exports[`array-test array of complex values json-schema 1`] = `
 exports[`array-test array of complex values typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -61,7 +62,8 @@ exports[`array-test array of simple values defined with options json-schema 1`] 
 exports[`array-test array of simple values defined with options typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
@@ -90,7 +92,8 @@ exports[`array-test array of simple values json-schema 1`] = `
 exports[`array-test array of simple values typescript 1`] = `
 "// Generated file, do not edit!
 
-// tslint:disable array-type
+// tslint:disable
+/* eslint-disable */
 // @ts-ignore -- ignore possibly unused type parameters
 export interface TestInterfaceBase<IDType, DateType>
 {
