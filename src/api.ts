@@ -95,6 +95,6 @@ function pickNameFromFilename(filename: string) {
     .replace(/[^a-zA-Z0-9]/g, '')
 }
 
-export function hashSchema(schema: Schema) {
+export function hashSchema(schema: Schema | ComplexType) {
   return generateHash(schema)
 }
