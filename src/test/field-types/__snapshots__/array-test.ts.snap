@@ -32,7 +32,8 @@ exports[`array-test array of complex values typescript 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: Array<{
     innerField: number
   }>
@@ -62,7 +63,8 @@ exports[`array-test array of simple values defined with options typescript 1`] =
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: Array<number>
 }"
 `;
@@ -90,7 +92,8 @@ exports[`array-test array of simple values typescript 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: Array<number>
 }"
 `;

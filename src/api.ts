@@ -22,7 +22,7 @@ export function createMongooseSchema(schema: Schema, context = 'mongoose') {
   return mongooseOutput(schema, context)
 }
 
-export function createTypescriptInterfaceDefinition(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
+export function createTypescriptInterfaceDefinition(exportName: string, schema: Schema | ComplexType, context: string = 'typescript', options: TSOptions = {}) {
   return tsOutput(exportName, schema, context, options)
 }
 
@@ -42,7 +42,7 @@ export interface TypescriptSchemaDefinition {
   name: string,
   context?: string,
   omitExtraExports?: boolean
-  schema?: Schema
+  schema?: Schema | ComplexType
   exportHash?: string
   doNotImportObjectId?: boolean
 }

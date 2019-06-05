@@ -14,15 +14,15 @@ export default class Complex {
     this.subschema = subschema
   }
 
-  public outputTypescript(context: string, indentation: string, _field: FieldInfo) {
+  public outputTypescript(context: string, indentation: string, _field?: FieldInfo) {
     return '{\n' + [...outputTSFields(this.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
   }
 
-  public outputMongoose(context: string, _field: FieldInfo): MongooseTypeBase {
+  public outputMongoose(context: string, _field?: FieldInfo): MongooseTypeBase {
     return {plain: outputMongooseFields(this.subschema, context)}
   }
 
-  public outputJSONSchema(context: string, makeEverythingOptional: boolean, _field: FieldInfo): JSONSchemaProperty {
+  public outputJSONSchema(context: string, makeEverythingOptional: boolean, _field?: FieldInfo): JSONSchemaProperty {
     const subschema: JSONSchemaObjectProperty = {
       type: 'object',
       required: [],

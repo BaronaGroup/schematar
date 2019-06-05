@@ -9,15 +9,22 @@ export interface TSOptions {
     doNotImportObjectId?: boolean
 }
 
-export default function(exportName: string, schema: Schema, context: string = 'typescript', options: TSOptions = {}) {
+export default function(exportName: string, schema: Schema | Complex, context: string = 'typescript', options: TSOptions = {}) {
     const output: string[] = []
     output.push('// Generated file, do not edit!')
     output.push('')
     output.push('// tslint:disable array-type')
     output.push('// @ts-ignore -- ignore possibly unused type parameters')
-    output.push(`export interface ${exportName}Base<IDType, DateType> {`)
-    for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
-    output.push('}')
+    output.push(`export interface ${exportName}Base<IDType, DateType>`)
+    if (schema instanceof Complex) {
+        output.push(schema.outputTypescript(context, '  ', null))
+    } else {
+        output.push('{')
+        for (const field of outputFields(schema.fields, context, '  ')) {
+            output.push(field)
+        }
+        output.push('}')
+    }
     if (!options.omitExtraExports) {
         if (!options.doNotImportObjectId) {
             output.push(`import {ObjectId} from 'mongodb'`)
@@ -28,7 +35,7 @@ export default function(exportName: string, schema: Schema, context: string = 't
     }
     const {exportHash} = options
     if (exportHash) {
-        const hash = generateHash(schema)
+        const hash = generateHash(schema instanceof Complex ? {fields: schema.subschema} : schema)
         output.push(`export const ${exportHash} = '${hash}'`)
     }
 

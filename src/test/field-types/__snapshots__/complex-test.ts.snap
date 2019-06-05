@@ -29,7 +29,8 @@ exports[`complex-test basic type typescript 1`] = `
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: {
     innerField: number
   }
@@ -56,7 +57,8 @@ exports[`complex-test can be inherited to override output behavior typescript 1`
 
 // tslint:disable array-type
 // @ts-ignore -- ignore possibly unused type parameters
-export interface TestInterfaceBase<IDType, DateType> {
+export interface TestInterfaceBase<IDType, DateType>
+{
   field: TSCustom
 }"
 `;
