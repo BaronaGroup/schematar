@@ -96,8 +96,7 @@ function asMongooseTypeBase<Context>(field: FieldInfo, context: string): Mongoos
   if (type instanceof Array) {
     return {
       type: type.map(subtype => {
-        const innerType = outputFieldFormat(subtype, context)
-        return innerType.type ? innerType.type : innerType
+        return outputFieldFormat(subtype, context)
       })
     }
   }

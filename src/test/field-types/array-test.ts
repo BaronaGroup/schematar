@@ -13,7 +13,7 @@ describe('array-test', function() {
     }))
 
     it('mongoose', testMongooseField(schema, 'field', field => {
-      expect(field).toEqual({type: [Number]})
+      expect(field).toEqual({type: [{type: Number}]})
     }))
 
     it('typescript', testTypescriptInterface(schema, tsInterface => {
@@ -31,7 +31,7 @@ describe('array-test', function() {
     }))
 
     it('mongoose', testMongooseField(schema, 'field', field => {
-      expect(field).toEqual({type: [Number]})
+      expect(field).toEqual({type: [{type: Number, index: true}]})
     }))
 
     it('typescript', testTypescriptInterface(schema, tsInterface => {
