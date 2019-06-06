@@ -7,8 +7,14 @@ import {
   outputFields as outputJSONSchemaFields
 } from './json-schema-output'
 
+export const COMPLEX_IDENTITY = 'complex-30753295-84f7-486b-bc21-b224461736ee'
+
 export default class Complex {
   public subschema: SchemaFields
+
+  get _schematarIdentity() {
+    return COMPLEX_IDENTITY
+  }
 
   constructor(subschema: SchemaFields) {
     this.subschema = subschema
@@ -31,5 +37,9 @@ export default class Complex {
     }
     outputJSONSchemaFields(this.subschema, context, subschema, makeEverythingOptional)
     return subschema
+  }
+
+  public static isComplex(potentialComplex: any): potentialComplex is Complex {
+    return !!(potentialComplex && potentialComplex._schematarIdentity === COMPLEX_IDENTITY)
   }
 }

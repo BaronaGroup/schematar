@@ -117,10 +117,10 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingO
     if (type === Boolean) return {type: 'boolean'}
     if (type === Number) return {type: 'number'}
     if (type === Object) return {}
-    if (type instanceof Complex) {
+    if (Complex.isComplex(type)) {
         return type.outputJSONSchema(context, makeEverythingOptional, field)
-
     }
+
     if (type instanceof Array) {
         const outtype = outputFieldFormat(type[0], context, makeEverythingOptional)
         const subschema: JSONSchemaArrayProperty = {

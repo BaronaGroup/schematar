@@ -4,7 +4,7 @@ import Complex from './complex'
 import crypto from 'crypto'
 
 export function generateHash(schema: Schema | Complex): string {
-  if (schema instanceof Complex) {
+  if (Complex.isComplex(schema)) {
     return generateHash({fields: schema.subschema})
   }
   const string = [...fieldsToStrings(schema.fields)].join('\n')
@@ -37,7 +37,7 @@ function* getTypeString(type: PlainType) {
   if (type === Number) return yield 'number'
   if (type === Object) return yield 'any'
 
-  if (type instanceof Complex) {
+  if (Complex.isComplex(type)) {
     yield 'Complex{'
     yield* fieldsToStrings(type.subschema)
     yield '}'

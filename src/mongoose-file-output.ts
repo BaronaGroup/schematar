@@ -78,7 +78,7 @@ function asMongooseType<Context>(type: PlainType, context: string, indentation: 
     if (type === Number) return 'Number'
     if (type === Object) return 'Object'
     if (type === Date) return 'Date'
-    if (type instanceof Complex) {
+    if (Complex.isComplex(type)) {
         return '{\n' + [...outputFields(type.subschema, context, indentation + '  ')].join('\n') + '\n' + indentation + '}'
     }
     if (type instanceof Array) {

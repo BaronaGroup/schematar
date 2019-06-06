@@ -89,7 +89,7 @@ function asMongooseTypeBase<Context>(field: FieldInfo, context: string): Mongoos
   if (type === Object) return {type}
   if (type === Date) return {type}
 
-  if (type instanceof Complex) {
+  if (Complex.isComplex(type)) {
     return type.outputMongoose(context, field)
 
   }
@@ -100,7 +100,7 @@ function asMongooseTypeBase<Context>(field: FieldInfo, context: string): Mongoos
       })
     }
   }
-  throw new Error('Unsupported type for mongoose schema ' + type)
+  throw new Error('Unsupported type for mongoose schema ' + JSON.stringify(type))
 }
 
 function isFullDeclaration<Context>(field: Field): field is FieldInfo {

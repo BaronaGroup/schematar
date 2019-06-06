@@ -17,7 +17,7 @@ export default function(exportName: string, schema: Schema | Complex, context: s
     output.push('/* eslint-disable */')
     output.push('// @ts-ignore -- ignore possibly unused type parameters')
     output.push(`export interface ${exportName}Base<IDType, DateType>`)
-    if (schema instanceof Complex) {
+    if (Complex.isComplex(schema)) {
         output.push(schema.outputTypescript(context, '  ', null))
     } else {
         output.push('{')
@@ -36,7 +36,7 @@ export default function(exportName: string, schema: Schema | Complex, context: s
     }
     const {exportHash} = options
     if (exportHash) {
-        const hash = generateHash(schema instanceof Complex ? {fields: schema.subschema} : schema)
+        const hash = generateHash(Complex.isComplex(schema) ? {fields: schema.subschema} : schema)
         output.push(`export const ${exportHash} = '${hash}'`)
     }
 
@@ -92,7 +92,7 @@ function asTSType<Context>(field: FieldInfo, context: string, indentation: strin
     if (type === Number) return 'number'
     if (type === Object) return 'any'
 
-    if (type instanceof Complex) {
+    if (Complex.isComplex(type)) {
         return type.outputTypescript(context, indentation, field)
     }
     if (type instanceof Array) {
