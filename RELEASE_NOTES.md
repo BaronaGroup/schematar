@@ -1,3 +1,7 @@
+# 1.3.2
+
+- Make mkdirp a regular dependency instead of a dev dependency
+
 # 1.3.1
 
 - Generated typescript interface files have tslint and eslint completely disabled
