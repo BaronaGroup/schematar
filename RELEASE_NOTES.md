@@ -1,3 +1,8 @@
+# 1.4.0
+
+- Arrays in mongoose support things like refs, indices and such
+- Complex types that come from different versions of schematar can be used interchangeable (the foreign version needs to be 1.4.0+ though)
+
 # 1.3.2
 
 - Make mkdirp a regular dependency instead of a dev dependency
