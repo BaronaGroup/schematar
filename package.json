@@ -1,6 +1,6 @@
 {
     "name": "schematar",
-    "version": "1.4.0",
+    "version": "1.5.0",
     "description": "Creates mongoose schemas, typescript interfaces and json schemas from a single schema",
     "homepage": "https://github.com/BaronaGroup/schematar",
     "repository": {
