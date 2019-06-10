@@ -1,3 +1,6 @@
+# 1.5.0
+- now is also compatible across schematar versions (starting from 1.5.0)
+
 # 1.4.0
 
 - Arrays in mongoose support things like refs, indices and such
