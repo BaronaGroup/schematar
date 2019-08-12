@@ -1,4 +1,4 @@
-image: node:10.16.0
+image: node:10.16.2
 
 variables:
   GIT_SUBMODULE_STRATEGY: normal
