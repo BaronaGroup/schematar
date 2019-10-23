@@ -3,7 +3,6 @@ import Complex from './complex'
 import now from './now'
 import {ObjectId} from './object-id'
 import {ObjectId as MongoObjectId} from 'mongodb'
-import mongoose from 'mongoose'
 
 export interface MongooseFields {
   [key: string]: MongooseField
@@ -82,7 +81,7 @@ function outputFieldFormat(field: Field, context: string): MongooseField {
 
 function asMongooseTypeBase<Context>(field: FieldInfo, context: string): MongooseTypeBase {
   const {type} = field
-  if (type === ObjectId) return {type: mongoose.Schema.Types.ObjectId}
+  if (type === ObjectId) return {type: require('mongoose').Schema.Types.ObjectId}
   if (type === String) return {type}
   if (type === Boolean) return {type}
   if (type === Number) return {type}
