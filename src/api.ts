@@ -54,7 +54,7 @@ interface SchemaFile {
   typescriptSchemas?: TypescriptSchemaDefinition[]
 }
 
-async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean = true) {
+export async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean = true, formatOutputFilename = defaultOutputFilenameFormatter) {
   const schemaFile = require(path.resolve(filename)) as SchemaFile
   const topLevelSchema = schemaFile.schema || schemaFile.default
   const topLevelName = schemaFile.name || pickNameFromFilename(filename)
@@ -74,10 +74,7 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
   } else if (topLevelSchema) {
     exported.push(createTypescriptInterfaceDefinition(topLevelName, topLevelSchema))
   }
-
-  const ext = path.extname(filename),
-    basename = path.basename(filename, ext),
-    outputFilename = path.join(outputPath, basename + '.schematar.ts')
+  const outputFilename = path.join(outputPath, formatOutputFilename(filename))
 
   if (logCreations) {
     log.info('Storing typescript interfaces in', outputFilename)
@@ -86,6 +83,13 @@ async function createTSInterfaceFile(filename: string, outputPath: string, logCr
   if (exported.length) {
     await new Promise((resolve, reject) => fs.writeFile(outputFilename, exported.join('\n'), 'utf8', err => !err ? resolve() : reject(err)))
   }
+}
+
+function defaultOutputFilenameFormatter(inputFilename: string) {
+  const ext = path.extname(inputFilename),
+    basename = path.basename(inputFilename, ext)
+
+  return basename + '.schematar.ts'
 }
 
 function pickNameFromFilename(filename: string) {
