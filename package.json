@@ -27,7 +27,7 @@
         "nodemon": "1.19.4",
         "npm-release": "1.0.0",
         "ts-jest": "24.1.0",
-        "ts-node-dev": "1.0.0-pre.43",
+        "ts-node-dev": "1.0.0-pre.44",
         "tslint": "5.20.0",
         "typescript": "3.6.4"
     },
