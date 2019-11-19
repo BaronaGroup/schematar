@@ -1,3 +1,11 @@
+# 1.7.0
+- Schemas can now be used as types (as fields, etc.)
+
+# 1.6.0
+
+- There is now an API for outputting a typescript interface
+- Mongoose is now an optional dependency
+
 # 1.5.0
 - now is also compatible across schematar versions (starting from 1.5.0)
 
