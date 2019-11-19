@@ -1,4 +1,4 @@
-import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType, isFullDeclaration} from './schema'
+import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType, isFullDeclaration, isSchema} from './schema'
 import Complex from './complex'
 import {ObjectId} from './object-id'
 import {generateHash} from './hash-schema'
@@ -99,6 +99,10 @@ function asTSType<Context>(field: FieldInfo, context: string, indentation: strin
         // TODO: support complex types
         const output = [...outputFieldFormat(type[0], context, indentation)].join('\n')
         return 'Array<' + output + '>'
+    }
+    if (isSchema(type)) {
+        const asComplex = new Complex(type.fields)
+        return asComplex.outputTypescript(context, indentation, {...field, type: asComplex})
     }
     throw new Error('Unsupported type for typescript type ' + type)
 }

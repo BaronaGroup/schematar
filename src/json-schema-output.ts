@@ -1,4 +1,4 @@
-import {Schema, SchemaFields, FieldInfo, Field, PlainType} from './schema'
+import {Schema, SchemaFields, FieldInfo, Field, PlainType, isSchema} from './schema'
 import Complex from './complex'
 import {ObjectId} from './object-id'
 
@@ -128,6 +128,9 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingO
             items: outtype
         }
         return subschema
+    }
+    if (isSchema(type)) {
+        return new Complex(type.fields).outputJSONSchema(context, makeEverythingOptional, field)
     }
     throw new Error('Unsupported type for json-schema ' + type)
 }

@@ -1,4 +1,4 @@
-import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType} from './schema'
+import {Schema, DefaultContext, SchemaFields, FieldInfo, Field, PlainType, isSchema} from './schema'
 import Complex from './complex'
 import now from './now'
 import {ObjectId} from './object-id'
@@ -90,7 +90,6 @@ function asMongooseTypeBase<Context>(field: FieldInfo, context: string): Mongoos
 
   if (Complex.isComplex(type)) {
     return type.outputMongoose(context, field)
-
   }
   if (type instanceof Array) {
     return {
@@ -98,6 +97,10 @@ function asMongooseTypeBase<Context>(field: FieldInfo, context: string): Mongoos
         return outputFieldFormat(subtype, context)
       })
     }
+  }
+  if (isSchema(type)) {
+    const asComplex = new Complex(type.fields)
+    return asComplex.outputMongoose(context, {...field, type: asComplex})
   }
   throw new Error('Unsupported type for mongoose schema ' + JSON.stringify(type))
 }

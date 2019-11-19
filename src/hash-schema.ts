@@ -1,4 +1,4 @@
-import {Field, isFullDeclaration, PlainType, Schema, SchemaFields} from './schema'
+import {Field, isFullDeclaration, isSchema, PlainType, Schema, SchemaFields} from './schema'
 import {ObjectId} from './object-id'
 import Complex from './complex'
 import crypto from 'crypto'
@@ -29,7 +29,7 @@ function* fieldsToStrings(fields: SchemaFields): IterableIterator<string> {
   }
 }
 
-function* getTypeString(type: PlainType) {
+function* getTypeString(type: PlainType): IterableIterator<string> {
   if (type === ObjectId) return yield 'ObjectId'
   if (type === String) return yield 'string'
   if (type === Date) return yield 'DateType'
@@ -45,6 +45,10 @@ function* getTypeString(type: PlainType) {
     yield 'Array['
     yield* fieldsToStrings({item: type[0]})
     yield ']'
+  }
+
+  if (isSchema(type)) {
+    yield* getTypeString(new Complex(type.fields))
   }
 }
 
