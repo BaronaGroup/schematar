@@ -24,7 +24,7 @@
         "gulp-typescript": "5.0.1",
         "jest": "24.9.0",
         "mongoose": "5.7.12",
-        "nodemon": "1.19.4",
+        "nodemon": "2.0.0",
         "npm-release": "1.0.0",
         "ts-jest": "24.1.0",
         "ts-node-dev": "1.0.0-pre.44",
