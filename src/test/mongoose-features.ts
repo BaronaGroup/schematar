@@ -74,4 +74,13 @@ describe('mongoose-features', function () {
     })
     expect(ms.field.expires).toBe('60m')
   })
+
+  it('"mongoose"', function () {
+    const ms = createMongooseSchema({
+      fields: {
+        field: {type: String, mongoose: { submarine: 'underwater' }}
+      }
+    })
+    expect((ms.field as any).submarine).toBe('underwater')
+  })
 })

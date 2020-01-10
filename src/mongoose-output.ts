@@ -71,6 +71,7 @@ function outputFieldFormat(field: Field, context: string): MongooseField {
     if (field.mongooseExpires) {
       outField.expires = field.mongooseExpires
     }
+    if (field.mongoose) Object.assign(outField, field.mongoose)
     return omitUndefined(outField)
   } else {
     const typeBase = asMongooseTypeBase({type: field}, context)

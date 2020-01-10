@@ -1,3 +1,6 @@
+# 1.8.0
+- Support for mongoose as a plain object added to the mongoose field definition (not supported when outputting as file)
+
 # 1.7.0
 - Schemas can now be used as types (as fields, etc.)
 

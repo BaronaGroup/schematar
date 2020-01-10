@@ -23,6 +23,7 @@ export interface FieldInfo {
     presentIn?: string[]
     optionalIn?: string[]
     enum?: string[]
+    mongoose?: any
     mongooseDefault?: any
     mongooseRef?: string
     mongooseExpires?: string

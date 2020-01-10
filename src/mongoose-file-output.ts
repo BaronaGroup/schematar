@@ -36,6 +36,9 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
         yield '{'
         const subind = indentation + '  '
         yield `${subind}type: ${asMongooseType(field.type, context, subind)},`
+        if (field.mongoose) {
+            throw new Error('Mongoose object is not supported for mongoose file output at this time')
+        }
         if (field.index === true) {
             yield `${subind}index: true,`
         } else if (field.index === 'unique') {
