@@ -1,7 +1,7 @@
 import {FieldInfo, Schema} from '../../schema'
 import {testJSONSchema, testMongooseField, testTypescriptInterface} from '../test-utils'
 import Complex from '../../complex'
-import {JSONSchemaProperty} from '../../json-schema-output'
+import {JSONSchemaOptions, JSONSchemaProperty} from '../../json-schema-output'
 
 describe('complex-test', function () {
   describe('basic type', function () {
@@ -75,12 +75,12 @@ describe('complex-test', function () {
           super({})
         }
 
-        public outputJSONSchema(context: string, makeEverythingOptional: boolean, field: FieldInfo) {
+        public outputJSONSchema(context: string, options: JSONSchemaOptions, field: FieldInfo) {
           expect(context).toBe(myContext)
-          expect(makeEverythingOptional).toBe(true)
+          expect(options.makeEverythingOptional).toBe(true)
           expect(field).toBe(dataSchema.fields.myField)
           asserts.push('json')
-          return super.outputJSONSchema(context, makeEverythingOptional, field)
+          return super.outputJSONSchema(context, options, field)
         }
 
         public outputMongoose(context: string, field: FieldInfo): { type: any } | { plain: any } {
@@ -120,5 +120,22 @@ describe('complex-test', function () {
         expect(asserts).toEqual(['typescript'])
       }, {}, myContext))
     })
+  })
+
+  describe('json-schema additional properties', function() {
+    const schema: Schema = {
+      fields: {
+        field: new Complex({
+          innerField: Number
+        })
+      }
+    }
+    it('forbidden by default', testJSONSchema(schema, data => {
+      expect(data).toMatchSnapshot()
+    }))
+
+    it('can be permitted', testJSONSchema(schema, data => {
+      expect(data).toMatchSnapshot()
+    }, {allowAdditionalFieldsNested: true}))
   })
 })

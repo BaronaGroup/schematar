@@ -49,6 +49,7 @@ export interface JSONSchema extends JSONSchemaObjectProperty {
 export interface JSONSchemaOptions {
     makeEverythingOptional?: boolean
     allowAdditionalFields?: boolean
+    allowAdditionalFieldsNested?: boolean
     schemaId?: string
 }
 
@@ -60,22 +61,22 @@ export default function(schema: Schema, context: string = 'jsonschema', options:
         $schema: 'http://json-schema.org/draft-07/schema#',
         properties: {},
         required: [],
-        additionalProperties: options.allowAdditionalFields
+        additionalProperties: options.allowAdditionalFields || options.allowAdditionalFieldsNested
     }
 
-    outputFields(schema.fields, context, base, !!options.makeEverythingOptional)
+    outputFields(schema.fields, context, base, options)
 
     return base
 }
 
-export function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, makeEverythingOptional: boolean) {
+export function outputFields(fields: SchemaFields, context: string, schema: JSONSchemaObjectProperty, options: JSONSchemaOptions) {
     for (const key of Object.keys(fields)) {
         const field = fields[key]
         const presentIn: string[] | undefined = (field as any).presentIn
         if (presentIn && !presentIn.includes(context)) continue
 
-        schema.properties[key] = outputFieldFormat(field, context, makeEverythingOptional)
-        const optional = makeEverythingOptional || isOptional(field, context)
+        schema.properties[key] = outputFieldFormat(field, context, options)
+        const optional = options.makeEverythingOptional || isOptional(field, context)
         if (!optional) schema.required.push(key)
     }
 }
@@ -87,10 +88,10 @@ function isOptional(field: any, context: string) {
 
 }
 
-function outputFieldFormat(field: Field, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
+function outputFieldFormat(field: Field, context: string, options: JSONSchemaOptions): JSONSchemaProperty {
     if (isFullDeclaration(field)) {
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
-        const prop = asJSONSchemaProperty(field, context, makeEverythingOptional)
+        const prop = asJSONSchemaProperty(field, context, options)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
         if (field.jsonSchema) Object.assign(prop, field.jsonSchema)
         if (field.allowNull) {
@@ -105,11 +106,11 @@ function outputFieldFormat(field: Field, context: string, makeEverythingOptional
         return prop
 
     } else {
-        return asJSONSchemaProperty({type: field}, context, makeEverythingOptional)
+        return asJSONSchemaProperty({type: field}, context, options)
     }
 }
 
-function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
+function asJSONSchemaProperty(field: FieldInfo, context: string, options: JSONSchemaOptions): JSONSchemaProperty {
     const {type} = field
     if (type === ObjectId) return {type: 'string', pattern: '^[a-fA-F0-9]{24}$'}
     if (type === String) return {type: 'string'}
@@ -120,11 +121,11 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingO
     if (type === Number) return {type: 'number'}
     if (type === Object) return {}
     if (Complex.isComplex(type)) {
-        return type.outputJSONSchema(context, makeEverythingOptional, field)
+        return type.outputJSONSchema(context, options, field)
     }
 
     if (type instanceof Array) {
-        const outtype = outputFieldFormat(type[0], context, makeEverythingOptional)
+        const outtype = outputFieldFormat(type[0], context, options)
         const subschema: JSONSchemaArrayProperty = {
             type: 'array',
             items: outtype
@@ -132,7 +133,7 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, makeEverythingO
         return subschema
     }
     if (isSchema(type)) {
-        return new Complex(type.fields).outputJSONSchema(context, makeEverythingOptional, field)
+        return new Complex(type.fields).outputJSONSchema(context, options, field)
     }
     throw new Error('Unsupported type for json-schema ' + type)
 }

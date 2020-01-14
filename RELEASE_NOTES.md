@@ -1,3 +1,7 @@
+# 1.9.0
+- Added allowAdditionalFieldsNested to json schema options. There is a potentially breaking change for subclassed Complex
+  objects, as the second parameter was converted from a boolean to JSONSchemaOptions
+
 # 1.8.0
 - Support for jsonSchema as a plain object added to the json schemadefinition
 
