@@ -17,6 +17,10 @@ describe('json-schema-features', function() {
     expect(schema).toMatchSnapshot()
   }, {schemaId: 'myschema'}))
 
+  it('custom fields', testJSONSchema({fields: {field: {type: String, jsonSchema: {year: 2020}}}}, schema => {
+    expect(schema).toMatchSnapshot()
+  }))
+
   describe('makeEverythingOptional', function() {
     it('shallow', testJSONSchema(simpleSchema, schema => {
       expect(schema).toMatchSnapshot()

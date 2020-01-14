@@ -1,4 +1,7 @@
 # 1.8.0
+- Support for jsonSchema as a plain object added to the json schemadefinition
+
+# 1.8.0
 - Support for mongoose as a plain object added to the mongoose field definition (not supported when outputting as file)
 
 # 1.7.0

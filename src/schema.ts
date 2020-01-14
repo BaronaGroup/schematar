@@ -27,6 +27,7 @@ export interface FieldInfo {
     mongooseDefault?: any
     mongooseRef?: string
     mongooseExpires?: string
+    jsonSchema?: any
 }
 
 export interface SchemaFields {

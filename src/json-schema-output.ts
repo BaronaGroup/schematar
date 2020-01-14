@@ -87,17 +87,19 @@ function isOptional(field: any, context: string) {
 
 }
 
-function outputFieldFormat(field: Field, context: string, makeEverythingOptional: boolean) {
+function outputFieldFormat(field: Field, context: string, makeEverythingOptional: boolean): JSONSchemaProperty {
     if (isFullDeclaration(field)) {
         if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
         const prop = asJSONSchemaProperty(field, context, makeEverythingOptional)
         if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
+        if (field.jsonSchema) Object.assign(prop, field.jsonSchema)
         if (field.allowNull) {
             const chosenType = (prop as any).type
             if (typeof chosenType !== 'string') throw new Error('Cannot use allowNull when base type is an array')
             return {
                 ...prop,
-                type: [chosenType, 'null']
+                type: [chosenType, 'null'],
+                ...(field.jsonSchema || {})
             }
         }
         return prop
