@@ -2,7 +2,6 @@ import {Schema as SchemaType} from './schema'
 import mongooseOutput from './mongoose-output'
 import tsOutput, {TSOptions} from './ts-output'
 import jsonSchemaOutput, {JSONSchemaOptions} from './json-schema-output'
-import glob from 'glob'
 import path from 'path'
 import fs from 'fs'
 import mkdirp from 'mkdirp'
@@ -31,6 +30,7 @@ export function createJSONSchema(schema: Schema, context: string = 'jsonschema',
 }
 
 export async function createTypescriptInterfaceFiles(sourceFileGlobOrFileArray: string | string[], outputPath: string, logCreations = false) {
+  const {default: glob} = await import('glob')
   await new Promise((resolve, reject) => mkdirp(outputPath, (err => !err ? resolve() : reject(err))))
   const files = [].concat(...Array.isArray(sourceFileGlobOrFileArray) ? sourceFileGlobOrFileArray.map(f => glob.sync(f)) : [glob.sync(sourceFileGlobOrFileArray)])
   for (const file of files) {
