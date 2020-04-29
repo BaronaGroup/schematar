@@ -22,7 +22,7 @@
         "gulp": "4.0.2",
         "gulp-clean": "0.4.0",
         "gulp-typescript": "5.0.1",
-        "jest": "25.5.1",
+        "jest": "25.5.2",
         "mongoose": "5.9.10",
         "nodemon": "2.0.3",
         "npm-release": "1.0.0",
