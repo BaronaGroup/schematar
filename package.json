@@ -17,7 +17,7 @@
         "@types/jest": "26.0.15",
         "@types/mkdirp": "0.5.2",
         "@types/mongodb": "3.5.32",
-        "@types/mongoose": "5.7.36",
+        "@types/mongoose": "5.7.37",
         "@types/node": "10.14.17",
         "gulp": "4.0.2",
         "gulp-clean": "0.4.0",
