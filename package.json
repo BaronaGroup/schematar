@@ -49,7 +49,7 @@
         "release": "npm test && npm-release"
     },
     "main": "dist/api.js",
-    "bin": "dist/app.js",
+    "bin": "bin/bin.js",
     "jest": {
         "collectCoverageFrom": [
             "/src/**/*.ts"
