@@ -2,9 +2,7 @@ import Complex from '../../complex'
 
 const schema = new Complex({
   field: String,
-  field2: Number
+  field2: Number,
 })
 
-export const typescriptSchemas: any[] = [
-  {name: 'CustomName', schema}
-]
+export const typescriptSchemas: any[] = [{ name: 'CustomName', schema }]

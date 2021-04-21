@@ -1,5 +1,5 @@
-import {karhu} from './karhu'
-import {createTypescriptInterfaceFiles} from './api'
+import { createTypescriptInterfaceFiles } from './api'
+import { karhu } from './karhu'
 
 const log = karhu('schematar')
 
@@ -17,8 +17,7 @@ async function run() {
   }
 }
 
-run()
-.catch(err => {
+run().catch((err) => {
   log.error(err)
   process.exit(66)
 })

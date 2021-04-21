@@ -1,79 +1,88 @@
 {
-    "name": "schematar",
-    "version": "1.10.3",
-    "description": "Creates mongoose schemas, typescript interfaces and json schemas from a single schema",
-    "homepage": "https://github.com/BaronaGroup/schematar",
-    "repository": {
-        "type": "git",
-        "url": "BaronaGroup/schematar"
+  "name": "schematar",
+  "version": "1.10.3",
+  "description": "Creates mongoose schemas, typescript interfaces and json schemas from a single schema",
+  "homepage": "https://github.com/BaronaGroup/schematar",
+  "repository": {
+    "type": "git",
+    "url": "BaronaGroup/schematar"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Tapani Haka"
+  },
+  "devDependencies": {
+    "@types/gulp": "4.0.8",
+    "@types/gulp-typescript": "2.13.0",
+    "@types/jest": "26.0.20",
+    "@types/mkdirp": "0.5.2",
+    "@types/mongodb": "3.6.8",
+    "@types/mongoose": "5.10.3",
+    "@types/node": "10.14.17",
+    "gulp": "4.0.2",
+    "gulp-clean": "0.4.0",
+    "gulp-typescript": "5.0.1",
+    "import-sort-style-module": "6.0.0",
+    "jest": "26.6.3",
+    "mongoose": "5.11.18",
+    "nodemon": "2.0.7",
+    "npm-release": "1.0.0",
+    "prettier": "2.2.1",
+    "prettier-plugin-import-sort": "0.0.6",
+    "ts-jest": "26.5.2",
+    "ts-node-dev": "1.1.6",
+    "tslint": "5.20.1",
+    "typescript": "4.0.5"
+  },
+  "dependencies": {
+    "glob": "^7.1.3",
+    "karhu": "^1.4.0",
+    "mkdirp": "0.5.5",
+    "mongodb": "^3.2.2"
+  },
+  "peerDependencies": {
+    "mongoose": "^5.0.0"
+  },
+  "scripts": {
+    "build": "gulp",
+    "tslint": "tslint --project tsconfig.json",
+    "lint": "npm run tslint",
+    "test": "jest",
+    "prepare": "npm run build",
+    "release": "npm test && npm-release"
+  },
+  "main": "dist/api.js",
+  "bin": "bin/bin.js",
+  "jest": {
+    "collectCoverageFrom": [
+      "/src/**/*.ts"
+    ],
+    "testMatch": [
+      "**/*-test.ts"
+    ],
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
     },
-    "license": "MIT",
-    "author": {
-        "name": "Tapani Haka"
-    },
-    "devDependencies": {
-        "@types/gulp": "4.0.8",
-        "@types/gulp-typescript": "2.13.0",
-        "@types/jest": "26.0.20",
-        "@types/mkdirp": "0.5.2",
-        "@types/mongodb": "3.6.8",
-        "@types/mongoose": "5.10.3",
-        "@types/node": "10.14.17",
-        "gulp": "4.0.2",
-        "gulp-clean": "0.4.0",
-        "gulp-typescript": "5.0.1",
-        "jest": "26.6.3",
-        "mongoose": "5.11.18",
-        "nodemon": "2.0.7",
-        "npm-release": "1.0.0",
-        "ts-jest": "26.5.2",
-        "ts-node-dev": "1.1.6",
-        "tslint": "5.20.1",
-        "typescript": "4.0.5"
-    },
-    "dependencies": {
-        "glob": "^7.1.3",
-        "karhu": "^1.4.0",
-        "mkdirp": "0.5.5",
-        "mongodb": "^3.2.2"
-    },
-    "peerDependencies": {
-        "mongoose": "^5.0.0"
-    },
-    "scripts": {
-        "build": "gulp",
-        "tslint": "tslint --project tsconfig.json",
-        "lint": "npm run tslint",
-        "test": "jest",
-        "prepare": "npm run build",
-        "release": "npm test && npm-release"
-    },
-    "main": "dist/api.js",
-    "bin": "bin/bin.js",
-    "jest": {
-        "collectCoverageFrom": [
-            "/src/**/*.ts"
-        ],
-        "testMatch": [
-            "**/*-test.ts"
-        ],
-        "transform": {
-            "^.+\\.ts$": "ts-jest"
-        },
-        "moduleFileExtensions": [
-            "ts",
-            "js"
-        ],
-        "setupFiles": [
-            "<rootDir>/src/test/test-setup.ts"
-        ],
-        "testEnvironment": "node",
-        "globals": {
-            "ts-jest": {
-                "tsConfig": {
-                    "incremental": true
-                }
-            }
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "setupFiles": [
+      "<rootDir>/src/test/test-setup.ts"
+    ],
+    "testEnvironment": "node",
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "incremental": true
         }
+      }
     }
+  },
+  "importSort": {
+    ".js, .jsx, .ts, .tsx": {
+      "style": "module",
+      "parser": "typescript"
+    }
+  }
 }

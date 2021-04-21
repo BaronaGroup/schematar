@@ -1,24 +1,23 @@
 export const schema = {
   fields: {
     field: String,
-    finalField: {type: String, presentIn: ['final']}
-  }
+    finalField: { type: String, presentIn: ['final'] },
+  },
 }
 
 export const typescriptSchemas: any[] = [
-  {
-  },
+  {},
   {
     name: 'Alternative',
     exportHash: 'anotherHash',
     schema: {
       fields: {
-        another: Number
-      }
-    }
+        another: Number,
+      },
+    },
   },
   {
     name: 'Final',
-    context: 'final'
-  }
+    context: 'final',
+  },
 ]
