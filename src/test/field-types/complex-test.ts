@@ -1,5 +1,6 @@
 import Complex from '../../complex'
 import { JSONSchemaOptions, JSONSchemaProperty } from '../../json-schema-output'
+import { MongooseOutputOptions } from '../../mongoose-output'
 import { FieldInfo, Schema } from '../../schema'
 import { testJSONSchema, testMongooseField, testTypescriptInterface } from '../test-utils'
 
@@ -101,11 +102,11 @@ describe('complex-test', function () {
           return super.outputJSONSchema(context, options, field)
         }
 
-        public outputMongoose(context: string, field: FieldInfo): { type: any } | { plain: any } {
-          expect(context).toBe(myContext)
+        public outputMongoose(options: MongooseOutputOptions, field: FieldInfo): { type: any } | { plain: any } {
+          expect(options.context).toBe(myContext)
           expect(field).toBe(dataSchema.fields.myField)
           asserts.push('mongoose')
-          return super.outputMongoose(context, field)
+          return super.outputMongoose(options, field)
         }
 
         public outputTypescript(context: string, indentation: string, field: FieldInfo): string {

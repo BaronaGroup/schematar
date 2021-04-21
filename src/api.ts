@@ -7,7 +7,7 @@ import ComplexType from './complex'
 import { generateHash } from './hash-schema'
 import jsonSchemaOutput, { JSONSchemaOptions } from './json-schema-output'
 import { karhu } from './karhu'
-import mongooseOutput from './mongoose-output'
+import mongooseOutput, { MongooseOutputOptions } from './mongoose-output'
 import nowToken from './now'
 import { ObjectId as ObjectIdType } from './object-id'
 import { Schema as SchemaType } from './schema'
@@ -19,8 +19,9 @@ export const Complex = ComplexType
 export const now = nowToken
 const log = karhu('schematar-api')
 
-export function createMongooseSchema(schema: Schema, context = 'mongoose') {
-  return mongooseOutput(schema, context)
+export function createMongooseSchema(schema: Schema, contextOrOptions: MongooseOutputOptions | string = 'mongoose') {
+  const options = typeof contextOrOptions === 'string' ? { context: contextOrOptions } : contextOrOptions
+  return mongooseOutput(schema, options)
 }
 
 export function createTypescriptInterfaceDefinition(

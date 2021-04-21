@@ -4,7 +4,7 @@ import {
   JSONSchemaProperty,
   outputFields as outputJSONSchemaFields,
 } from './json-schema-output'
-import { MongooseTypeBase, outputFields as outputMongooseFields } from './mongoose-output'
+import { MongooseOutputOptions, MongooseTypeBase, outputFields as outputMongooseFields } from './mongoose-output'
 import { FieldInfo, SchemaFields } from './schema'
 import { outputFields as outputTSFields } from './ts-output'
 
@@ -27,8 +27,8 @@ export default class Complex {
     )
   }
 
-  public outputMongoose(context: string, _field?: FieldInfo): MongooseTypeBase {
-    return { plain: outputMongooseFields(this.subschema, context) }
+  public outputMongoose(options: MongooseOutputOptions, _field?: FieldInfo): MongooseTypeBase {
+    return { plain: outputMongooseFields(this.subschema, options) }
   }
 
   public outputJSONSchema(context: string, options: JSONSchemaOptions, _field?: FieldInfo): JSONSchemaProperty {
