@@ -19,8 +19,18 @@ export const Complex = ComplexType
 export const now = nowToken
 const log = karhu('schematar-api')
 
-export function createMongooseSchema(schema: Schema, contextOrOptions: MongooseOutputOptions | string = 'mongoose') {
-  const options = typeof contextOrOptions === 'string' ? { context: contextOrOptions } : contextOrOptions
+export type MongooseOutputOptionsWithOptionalContext = Omit<MongooseOutputOptions, 'context'> & {
+  context?: string
+}
+
+export function createMongooseSchema(
+  schema: Schema,
+  contextOrOptions: MongooseOutputOptionsWithOptionalContext | string = 'mongoose'
+) {
+  const options =
+    typeof contextOrOptions === 'string'
+      ? { context: contextOrOptions }
+      : { ...contextOrOptions, context: contextOrOptions.context ?? 'mongoose' }
   return mongooseOutput(schema, options)
 }
 

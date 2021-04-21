@@ -1,12 +1,12 @@
-import { ObjectId as MongoObjectId } from 'mongodb'
-
 import Complex from './complex'
 import now from './now'
 import { ObjectId } from './object-id'
-import { DefaultContext, Field, FieldInfo, PlainType, Schema, SchemaFields, isSchema } from './schema'
+import { Field, FieldInfo, Schema, SchemaFields, isSchema } from './schema'
 
 export interface MongooseOutputOptions {
   context: string
+  transformer?(input: MongooseField, path: string[], schematarType: Field): MongooseField | undefined
+  _fieldPath?: string[] // internal use only
 }
 
 export interface MongooseFields {
@@ -38,7 +38,10 @@ export function outputFields(fields: SchemaFields, options: MongooseOutputOption
     if (presentIn && !presentIn.includes(options.context)) continue
 
     if (key === '_id' || key === '__v') continue
-    outFields[key] = outputFieldFormat(field, options)
+    const fieldPath = [...(options._fieldPath ?? []), key]
+    const fieldFormat = outputFieldFormat(field, { ...options, _fieldPath: fieldPath })
+    const transformedFieldFormat = options.transformer?.(fieldFormat, fieldPath, field) ?? fieldFormat
+    outFields[key] = transformedFieldFormat
   }
   return outFields
 }
