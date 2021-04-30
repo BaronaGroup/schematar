@@ -1,3 +1,8 @@
+# 1.11.0
+
+- mongoose schema generation now supports an options object which can include a transformer for altering the schema generation
+  conditionally using code
+
 # 1.9.0
 - Added allowAdditionalFieldsNested to json schema options. There is a potentially breaking change for subclassed Complex
   objects, as the second parameter was converted from a boolean to JSONSchemaOptions
