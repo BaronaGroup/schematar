@@ -1,25 +1,27 @@
-import {createTypescriptInterfaceFiles} from '../api'
 import fs from 'fs'
+
+import { createTypescriptInterfaceFiles } from '../api'
+
 import mkdirp = require('mkdirp')
 
 const isOutputFile = /\.schematar\.ts$/
 
-describe('api-test', function() {
+describe('api-test', function () {
   const outputDir = __dirname + '/../../test-output/api-test'
   beforeAll(async () => {
     await prepareOutputDirectory(outputDir)
     await createTypescriptInterfaceFiles(__dirname + '/test-schemas/*-schema.ts', outputDir)
   })
 
-  describe('createTypescriptInterfaceFiles', function() {
-    describe('implicit', function() {
+  describe('createTypescriptInterfaceFiles', function () {
+    describe('implicit', function () {
       it('simple case', testOutputSnapshot('simple'))
       it('simple case with default export', testOutputSnapshot('default'))
       it('simple case with explicit name', testOutputSnapshot('named'))
     })
 
-    describe('explicit', function() {
-      it('no outputs', function() {
+    describe('explicit', function () {
+      it('no outputs', function () {
         expect(fs.existsSync(getOutputFilename('no-ts'))).toBe(false)
       })
 
@@ -44,8 +46,7 @@ describe('api-test', function() {
   }
 
   function testOutputSnapshot(baseName: string) {
-    return async function() {
-
+    return async function () {
       const data = await fs.promises.readFile(getOutputFilename(baseName), 'utf8')
       expect(data).toMatchSnapshot()
     }

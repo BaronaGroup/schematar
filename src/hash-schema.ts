@@ -1,11 +1,12 @@
-import {Field, isFullDeclaration, isSchema, PlainType, Schema, SchemaFields} from './schema'
-import {ObjectId} from './object-id'
-import Complex from './complex'
 import crypto from 'crypto'
+
+import Complex from './complex'
+import { ObjectId } from './object-id'
+import { Field, PlainType, Schema, SchemaFields, isFullDeclaration, isSchema } from './schema'
 
 export function generateHash(schema: Schema | Complex): string {
   if (Complex.isComplex(schema)) {
-    return generateHash({fields: schema.subschema})
+    return generateHash({ fields: schema.subschema })
   }
   const string = [...fieldsToStrings(schema.fields)].join('\n')
   return hashString(string)
@@ -43,7 +44,7 @@ function* getTypeString(type: PlainType): IterableIterator<string> {
     yield '}'
   } else if (type instanceof Array) {
     yield 'Array['
-    yield* fieldsToStrings({item: type[0]})
+    yield* fieldsToStrings({ item: type[0] })
     yield ']'
   }
 

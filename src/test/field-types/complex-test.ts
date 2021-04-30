@@ -1,29 +1,39 @@
-import {FieldInfo, Schema} from '../../schema'
-import {testJSONSchema, testMongooseField, testTypescriptInterface} from '../test-utils'
 import Complex from '../../complex'
-import {JSONSchemaOptions, JSONSchemaProperty} from '../../json-schema-output'
+import { JSONSchemaOptions, JSONSchemaProperty } from '../../json-schema-output'
+import { MongooseOutputOptions } from '../../mongoose-output'
+import { FieldInfo, Schema } from '../../schema'
+import { testJSONSchema, testMongooseField, testTypescriptInterface } from '../test-utils'
 
 describe('complex-test', function () {
   describe('basic type', function () {
     const schema: Schema = {
       fields: {
         field: new Complex({
-          innerField: Number
-        })
-      }
+          innerField: Number,
+        }),
+      },
     }
 
-    it('json-schema', testJSONSchema(schema, data => {
-      expect(data).toMatchSnapshot()
-    }))
+    it(
+      'json-schema',
+      testJSONSchema(schema, (data) => {
+        expect(data).toMatchSnapshot()
+      })
+    )
 
-    it('mongoose', testMongooseField(schema, 'field', field => {
-      expect(field).toEqual({innerField: {type: Number}})
-    }))
+    it(
+      'mongoose',
+      testMongooseField(schema, 'field', (field) => {
+        expect(field).toEqual({ innerField: { type: Number } })
+      })
+    )
 
-    it('typescript', testTypescriptInterface(schema, tsInterface => {
-      expect(tsInterface).toMatchSnapshot()
-    }))
+    it(
+      'typescript',
+      testTypescriptInterface(schema, (tsInterface) => {
+        expect(tsInterface).toMatchSnapshot()
+      })
+    )
   })
 
   describe('can be inherited to override output behavior', function () {
@@ -33,11 +43,11 @@ describe('complex-test', function () {
       }
 
       public outputJSONSchema(): JSONSchemaProperty {
-        return {type: 'custom-json'}
+        return { type: 'custom-json' }
       }
 
       public outputMongoose() {
-        return {plain: 'custom-mongoose'}
+        return { plain: 'custom-mongoose' }
       }
 
       public outputTypescript() {
@@ -47,28 +57,37 @@ describe('complex-test', function () {
 
     const schema: Schema = {
       fields: {
-        field: new MyComplex()
-      }
+        field: new MyComplex(),
+      },
     }
 
-    it('json-schema', testJSONSchema(schema, data => {
-      expect(data).toMatchSnapshot()
-    }))
+    it(
+      'json-schema',
+      testJSONSchema(schema, (data) => {
+        expect(data).toMatchSnapshot()
+      })
+    )
 
-    it('mongoose', testMongooseField(schema, 'field', field => {
-      expect(field).toEqual('custom-mongoose')
-    }))
+    it(
+      'mongoose',
+      testMongooseField(schema, 'field', (field) => {
+        expect(field).toEqual('custom-mongoose')
+      })
+    )
 
-    it('typescript', testTypescriptInterface(schema, tsInterface => {
-      expect(tsInterface).toMatchSnapshot()
-    }))
+    it(
+      'typescript',
+      testTypescriptInterface(schema, (tsInterface) => {
+        expect(tsInterface).toMatchSnapshot()
+      })
+    )
 
     describe('inherited complex methods have access to various data', function () {
       const myContext = 'banana'
 
       let asserts: string[] = []
 
-      beforeEach(() => asserts = [])
+      beforeEach(() => (asserts = []))
 
       class DataComplex extends Complex {
         constructor() {
@@ -83,11 +102,11 @@ describe('complex-test', function () {
           return super.outputJSONSchema(context, options, field)
         }
 
-        public outputMongoose(context: string, field: FieldInfo): { type: any } | { plain: any } {
-          expect(context).toBe(myContext)
+        public outputMongoose(options: MongooseOutputOptions, field: FieldInfo): { type: any } | { plain: any } {
+          expect(options.context).toBe(myContext)
           expect(field).toBe(dataSchema.fields.myField)
           asserts.push('mongoose')
-          return super.outputMongoose(context, field)
+          return super.outputMongoose(options, field)
         }
 
         public outputTypescript(context: string, indentation: string, field: FieldInfo): string {
@@ -103,39 +122,73 @@ describe('complex-test', function () {
         fields: {
           myField: {
             type: new DataComplex(),
-            index: 'unique'
-          }
-        }
+            index: 'unique',
+          },
+        },
       }
 
-      it('json-schema', testJSONSchema(dataSchema, () => {
-        expect(asserts).toEqual(['json'])
-      }, {makeEverythingOptional: true}, myContext))
+      it(
+        'json-schema',
+        testJSONSchema(
+          dataSchema,
+          () => {
+            expect(asserts).toEqual(['json'])
+          },
+          { makeEverythingOptional: true },
+          myContext
+        )
+      )
 
-      it('mongoose', testMongooseField(dataSchema, 'myField', () => {
-        expect(asserts).toEqual(['mongoose'])
-      }, myContext))
+      it(
+        'mongoose',
+        testMongooseField(
+          dataSchema,
+          'myField',
+          () => {
+            expect(asserts).toEqual(['mongoose'])
+          },
+          myContext
+        )
+      )
 
-      it('typescript', testTypescriptInterface(dataSchema, () => {
-        expect(asserts).toEqual(['typescript'])
-      }, {}, myContext))
+      it(
+        'typescript',
+        testTypescriptInterface(
+          dataSchema,
+          () => {
+            expect(asserts).toEqual(['typescript'])
+          },
+          {},
+          myContext
+        )
+      )
     })
   })
 
-  describe('json-schema additional properties', function() {
+  describe('json-schema additional properties', function () {
     const schema: Schema = {
       fields: {
         field: new Complex({
-          innerField: Number
-        })
-      }
+          innerField: Number,
+        }),
+      },
     }
-    it('forbidden by default', testJSONSchema(schema, data => {
-      expect(data).toMatchSnapshot()
-    }))
+    it(
+      'forbidden by default',
+      testJSONSchema(schema, (data) => {
+        expect(data).toMatchSnapshot()
+      })
+    )
 
-    it('can be permitted', testJSONSchema(schema, data => {
-      expect(data).toMatchSnapshot()
-    }, {allowAdditionalFieldsNested: true}))
+    it(
+      'can be permitted',
+      testJSONSchema(
+        schema,
+        (data) => {
+          expect(data).toMatchSnapshot()
+        },
+        { allowAdditionalFieldsNested: true }
+      )
+    )
   })
 })

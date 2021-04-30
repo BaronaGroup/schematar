@@ -1,9 +1,7 @@
 export const schema = {
   fields: {
-    field: String
-  }
+    field: String,
+  },
 }
 
-export const typescriptSchemas: any[] = [
-  {exportHash: 'mySchemaHash'}
-]
+export const typescriptSchemas: any[] = [{ exportHash: 'mySchemaHash' }]

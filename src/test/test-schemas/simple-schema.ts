@@ -1,5 +1,5 @@
 export const schema = {
   fields: {
-    field: String
-  }
+    field: String,
+  },
 }

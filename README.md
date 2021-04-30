@@ -35,15 +35,27 @@ Everything stable is exported from the main file of the package. For any example
 #### createMongooseSchema
 
     function createMongooseSchema(schema: Schema, context?: string): MongooseFields
+    function createMongooseSchema(schema: Schema, options?: MongooseSchemaOptions): MongooseFields
 
-This function creates a mongoose schema definition (not an instantiated schema) from the provided schema.
+This function creates a mongoose schema definition (not an instantiated schema) from the provided schema. Passing a context
+string is equivalent to passing an options object where the context is set to the value.
 
 ##### Parameters
 
-| Name    | Type    | Description                                                                    |
-| ------- | ------- | ------------------------------------------------------------------------------ |
-| schema  | Schema  | The Schematar schema being turned into a mongoose schema                       |
-| context | string? | The [context](#context) used for the schema generation. Defaults to `mongoose` |
+| Name    | Type    | Description                                                                                         |
+| ------- | ------- | --------------------------------------------------------------------------------------------------- |
+| schema  | Schema                                            | The Schematar schema being turned into a mongoose schema  |
+| options | [MongooseSchemaOptions] (#mongooseschemaoptions)? | Options for mongoose schema generation                    |
+
+###### MongooseSchemaOptions
+
+An object with any of the following properties:
+
+| Name         | Type      | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| -------------| --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| context      | string?   | The [context](#context) used for the schema generation. Defaults to `mongoose` |
+| transformer  | function? | A function that can be used to change the modify the actual mongoose schema elements as they are being generated. It receives as is parameters the element as created by papupata, a path to the field as an array and the schematar field definition. The function can either return a modified version of the mongoose schema element or mutate the one passed to it. An example use would be conditionally removing or adding indexing to fields. |
+
 
 ##### Return value
 

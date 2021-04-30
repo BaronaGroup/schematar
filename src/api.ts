@@ -1,15 +1,17 @@
-import {Schema as SchemaType} from './schema'
-import mongooseOutput from './mongoose-output'
-import tsOutput, {TSOptions} from './ts-output'
-import jsonSchemaOutput, {JSONSchemaOptions} from './json-schema-output'
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
+
 import mkdirp from 'mkdirp'
-import {ObjectId as ObjectIdType} from './object-id'
-import nowToken from './now'
+
 import ComplexType from './complex'
-import {karhu} from './karhu'
-import {generateHash} from './hash-schema'
+import { generateHash } from './hash-schema'
+import jsonSchemaOutput, { JSONSchemaOptions } from './json-schema-output'
+import { karhu } from './karhu'
+import mongooseOutput, { MongooseOutputOptions } from './mongoose-output'
+import nowToken from './now'
+import { ObjectId as ObjectIdType } from './object-id'
+import { Schema as SchemaType } from './schema'
+import tsOutput, { TSOptions } from './ts-output'
 
 export const ObjectId = ObjectIdType
 export type Schema = SchemaType
@@ -17,11 +19,27 @@ export const Complex = ComplexType
 export const now = nowToken
 const log = karhu('schematar-api')
 
-export function createMongooseSchema(schema: Schema, context = 'mongoose') {
-  return mongooseOutput(schema, context)
+export type MongooseOutputOptionsWithOptionalContext = Omit<MongooseOutputOptions, 'context'> & {
+  context?: string
 }
 
-export function createTypescriptInterfaceDefinition(exportName: string, schema: Schema | ComplexType, context: string = 'typescript', options: TSOptions = {}) {
+export function createMongooseSchema(
+  schema: Schema,
+  contextOrOptions: MongooseOutputOptionsWithOptionalContext | string = 'mongoose'
+) {
+  const options =
+    typeof contextOrOptions === 'string'
+      ? { context: contextOrOptions }
+      : { ...contextOrOptions, context: contextOrOptions.context ?? 'mongoose' }
+  return mongooseOutput(schema, options)
+}
+
+export function createTypescriptInterfaceDefinition(
+  exportName: string,
+  schema: Schema | ComplexType,
+  context: string = 'typescript',
+  options: TSOptions = {}
+) {
   return tsOutput(exportName, schema, context, options)
 }
 
@@ -29,18 +47,26 @@ export function createJSONSchema(schema: Schema, context: string = 'jsonschema',
   return jsonSchemaOutput(schema, context, options)
 }
 
-export async function createTypescriptInterfaceFiles(sourceFileGlobOrFileArray: string | string[], outputPath: string, logCreations = false) {
-  const {default: glob} = await import('glob')
-  await new Promise((resolve, reject) => mkdirp(outputPath, (err => !err ? resolve() : reject(err))))
-  const files = [].concat(...Array.isArray(sourceFileGlobOrFileArray) ? sourceFileGlobOrFileArray.map(f => glob.sync(f)) : [glob.sync(sourceFileGlobOrFileArray)])
+export async function createTypescriptInterfaceFiles(
+  sourceFileGlobOrFileArray: string | string[],
+  outputPath: string,
+  logCreations = false
+) {
+  const { default: glob } = await import('glob')
+  await new Promise((resolve, reject) => mkdirp(outputPath, (err) => (!err ? resolve() : reject(err))))
+  const files = [].concat(
+    ...(Array.isArray(sourceFileGlobOrFileArray)
+      ? sourceFileGlobOrFileArray.map((f) => glob.sync(f))
+      : [glob.sync(sourceFileGlobOrFileArray)])
+  )
   for (const file of files) {
     await createTSInterfaceFile(file, outputPath, logCreations)
   }
 }
 
 export interface TypescriptSchemaDefinition {
-  name: string,
-  context?: string,
+  name: string
+  context?: string
   omitExtraExports?: boolean
   schema?: Schema | ComplexType
   exportHash?: string
@@ -54,7 +80,12 @@ interface SchemaFile {
   typescriptSchemas?: TypescriptSchemaDefinition[]
 }
 
-export async function createTSInterfaceFile(filename: string, outputPath: string, logCreations: boolean = true, formatOutputFilename = defaultOutputFilenameFormatter) {
+export async function createTSInterfaceFile(
+  filename: string,
+  outputPath: string,
+  logCreations: boolean = true,
+  formatOutputFilename = defaultOutputFilenameFormatter
+) {
   const schemaFile = require(path.resolve(filename)) as SchemaFile
   const topLevelSchema = schemaFile.schema || schemaFile.default
   const topLevelName = schemaFile.name || pickNameFromFilename(filename)
@@ -66,10 +97,12 @@ export async function createTSInterfaceFile(filename: string, outputPath: string
         name = schemaDef.name || topLevelName
 
       if (!schema) throw new Error('No schema found for ' + name)
-      exported.push(createTypescriptInterfaceDefinition(name, schema, schemaDef.context || 'typescript', {
-        ...schemaDef,
-        doNotImportObjectId: schemaDef.doNotImportObjectId || typescriptSchemas.indexOf(schemaDef) > 0
-      }))
+      exported.push(
+        createTypescriptInterfaceDefinition(name, schema, schemaDef.context || 'typescript', {
+          ...schemaDef,
+          doNotImportObjectId: schemaDef.doNotImportObjectId || typescriptSchemas.indexOf(schemaDef) > 0,
+        })
+      )
     }
   } else if (topLevelSchema) {
     exported.push(createTypescriptInterfaceDefinition(topLevelName, topLevelSchema))
@@ -81,7 +114,9 @@ export async function createTSInterfaceFile(filename: string, outputPath: string
   }
 
   if (exported.length) {
-    await new Promise((resolve, reject) => fs.writeFile(outputFilename, exported.join('\n'), 'utf8', err => !err ? resolve() : reject(err)))
+    await new Promise((resolve, reject) =>
+      fs.writeFile(outputFilename, exported.join('\n'), 'utf8', (err) => (!err ? resolve() : reject(err)))
+    )
   }
 }
 
@@ -95,7 +130,7 @@ function defaultOutputFilenameFormatter(inputFilename: string) {
 function pickNameFromFilename(filename: string) {
   const fn = path.basename(filename, path.extname(filename))
   return (fn[0].toUpperCase() + fn.substring(1))
-    .replace(/[\-_][a-z]/g, match => match[1].toUpperCase())
+    .replace(/[\-_][a-z]/g, (match) => match[1].toUpperCase())
     .replace(/[^a-zA-Z0-9]/g, '')
 }
 

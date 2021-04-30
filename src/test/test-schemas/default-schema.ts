@@ -1,5 +1,5 @@
 export default {
   fields: {
-    field: String
-  }
+    field: String,
+  },
 }

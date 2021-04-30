@@ -1,11 +1,11 @@
 export const schema = {
   fields: {
-    field: String
-  }
+    field: String,
+  },
 }
 
 export const typescriptSchemas: any[] = [
   {
-    omitExtraExports: true
-  }
+    omitExtraExports: true,
+  },
 ]
