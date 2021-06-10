@@ -1,3 +1,7 @@
+# 1.11.1
+
+- Updated dependencies
+
 # 1.11.0
 
 - mongoose schema generation now supports an options object which can include a transformer for altering the schema generation
