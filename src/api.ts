@@ -53,7 +53,7 @@ export async function createTypescriptInterfaceFiles(
   logCreations = false
 ) {
   const { default: glob } = await import('glob')
-  await new Promise((resolve, reject) => mkdirp(outputPath, (err) => (!err ? resolve() : reject(err))))
+  await new Promise<void>((resolve, reject) => mkdirp(outputPath, (err) => (!err ? resolve() : reject(err))))
   const files = [].concat(
     ...(Array.isArray(sourceFileGlobOrFileArray)
       ? sourceFileGlobOrFileArray.map((f) => glob.sync(f))
@@ -114,7 +114,7 @@ export async function createTSInterfaceFile(
   }
 
   if (exported.length) {
-    await new Promise((resolve, reject) =>
+    await new Promise<void>((resolve, reject) =>
       fs.writeFile(outputFilename, exported.join('\n'), 'utf8', (err) => (!err ? resolve() : reject(err)))
     )
   }
