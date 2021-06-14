@@ -85,5 +85,10 @@
       "style": "module",
       "parser": "typescript"
     }
-  }
+  },
+  "files": [
+    "src",
+    "dist",
+    "bin"
+  ]
 }
