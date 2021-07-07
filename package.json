@@ -16,7 +16,7 @@
     "@types/gulp-typescript": "2.13.0",
     "@types/jest": "26.0.24",
     "@types/mkdirp": "1.0.2",
-    "@types/mongodb": "3.6.19",
+    "@types/mongodb": "3.6.20",
     "@types/mongoose": "5.11.96",
     "@types/node": "14.17.4",
     "gulp": "4.0.2",
