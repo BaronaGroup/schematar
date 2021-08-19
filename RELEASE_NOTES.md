@@ -1,3 +1,8 @@
+# 1.12.0
+
+- Support arrays of an enum
+- Updated dependencies
+
 # 1.11.1
 
 - Updated dependencies
