@@ -27,6 +27,41 @@ export interface TestInterfaceBase<IDType, DateType>
 }"
 `;
 
+exports[`string-test enums are supported enums are also supported for arrays json-schema 1`] = `
+"{
+  \\"type\\": \\"object\\",
+  \\"$schema\\": \\"http://json-schema.org/draft-07/schema#\\",
+  \\"properties\\": {
+    \\"field\\": {
+      \\"type\\": \\"array\\",
+      \\"items\\": {
+        \\"type\\": \\"string\\",
+        \\"enum\\": [
+          \\"Alpha\\",
+          \\"Beta\\",
+          \\"Gamma\\"
+        ]
+      }
+    }
+  },
+  \\"required\\": [
+    \\"field\\"
+  ]
+}"
+`;
+
+exports[`string-test enums are supported enums are also supported for arrays typescript 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  field: Array<'Alpha' | 'Beta' | 'Gamma'>
+}"
+`;
+
 exports[`string-test enums are supported json-schema 1`] = `
 "{
   \\"type\\": \\"object\\",

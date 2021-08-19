@@ -98,9 +98,14 @@ function isOptional(field: any, context: string) {
 
 function outputFieldFormat(field: Field, context: string, options: JSONSchemaOptions): JSONSchemaProperty {
   if (isFullDeclaration(field)) {
-    if (field.enum && field.type !== String) throw new Error('Enum is only supported for strings')
+    if (field.enum && field.type !== String && !(Array.isArray(field.type) && field.type[0] === String)) {
+      throw new Error('Enum is only supported for strings')
+    }
     const prop = asJSONSchemaProperty(field, context, options)
-    if (field.enum) (prop as JSONSchemaStringProperty).enum = field.enum
+    if (field.enum && !Array.isArray(field.type)) {
+      // tslint:disable-next-line
+      ;(prop as JSONSchemaStringProperty).enum = field.enum
+    }
     if (field.jsonSchema) Object.assign(prop, field.jsonSchema)
     if (field.allowNull) {
       const chosenType = (prop as any).type
@@ -135,7 +140,10 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, options: JSONSc
     const outtype = outputFieldFormat(type[0], context, options)
     const subschema: JSONSchemaArrayProperty = {
       type: 'array',
-      items: outtype,
+      items: {
+        ...outtype,
+        ...(field.enum ? { enum: field.enum } : {}),
+      },
     }
     return subschema
   }

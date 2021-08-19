@@ -86,7 +86,10 @@ function isOptional<Context>(field: any, context: string) {
 function* outputFieldFormat(field: Field, context: string, indentation: string) {
   if (isFullDeclaration(field)) {
     if (field.enum) {
-      yield field.enum.map((f) => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
+      const isArray = Array.isArray(field.type)
+      yield (isArray ? 'Array<' : '') +
+        field.enum.map((f) => "'" + f.replace(/'/g, "\\'") + "'").join(' | ') +
+        (isArray ? '>' : '')
     } else {
       yield asTSType(field, context, indentation)
     }

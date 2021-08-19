@@ -58,5 +58,34 @@ describe('string-test', function () {
         expect(tsInterface).toMatchSnapshot()
       })
     )
+
+    describe('enums are also supported for arrays', function () {
+      const arraySchema: Schema = {
+        fields: {
+          field: { type: [String], enum: ['Alpha', 'Beta', 'Gamma'] },
+        },
+      }
+
+      it(
+        'json-schema',
+        testJSONSchema(arraySchema, (data) => {
+          expect(data).toMatchSnapshot()
+        })
+      )
+
+      it(
+        'mongoose',
+        testMongooseField(arraySchema, 'field', (field) => {
+          expect(field).toEqual({ type: [{ type: String }], enum: ['Alpha', 'Beta', 'Gamma'] })
+        })
+      )
+
+      it(
+        'typescript',
+        testTypescriptInterface(arraySchema, (tsInterface) => {
+          expect(tsInterface).toMatchSnapshot()
+        })
+      )
+    })
   })
 })
