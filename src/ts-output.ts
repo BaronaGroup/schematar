@@ -16,6 +16,8 @@ export interface TSOptions {
   omitExtraExports?: boolean
   exportHash?: string
   doNotImportObjectId?: boolean
+  doNotImportMongooseTypes?: boolean
+  typescriptVersion?: string // the version of typescript the generated interface are to be compatible with. "detect" attempts to detect a suitable version from the working directory, "latest" and undefined use all features
 }
 
 export default function (
@@ -44,6 +46,9 @@ export default function (
     if (!options.doNotImportObjectId) {
       output.push(`import {ObjectId} from 'mongodb'`)
     }
+    if (!options.doNotImportMongooseTypes) {
+      output.push(`import {Types as MongooseTypes} from 'mongoose'`)
+    }
     output.push(`export type ${exportName}Mongoose = ${exportName}Base<ObjectId, Date>`)
     output.push(`export type ${exportName}JSON = ${exportName}Base<string, string>`)
     output.push(`export type ${exportName}Fluid = ${exportName}Base<string | ObjectId, string | Date>`)
@@ -63,17 +68,20 @@ export function* outputFields(fields: SchemaFields, context: string, indentation
     const presentIn: string[] | undefined = (field as any).presentIn
     if (presentIn && !presentIn.includes(context)) continue
 
-    const ftm = [...outputFieldFormat(field, context, indentation)]
+    const ftm = outputFieldFormat(field, context, indentation)
     const optional = isOptional(field, context)
     const allowNull = (field as any).allowNull
     if (allowNull && !optional) throw new Error('allowNull can only be used on optional fields')
 
-    if (ftm.length === 1) {
-      yield `${indentation}${key}${optional ? '?' : ''}: ${ftm[0]}${allowNull ? ' | null' : ''}`
-    } else {
-      yield `${indentation}${key}: ${ftm[0]}`
-      yield* yieldMany(ftm.slice(1))
+    if (versionAtLeast('4.3')) {
+      const type = isFullDeclaration(field) ? field.type : field
+      if (type === ObjectId) {
+        yield get
+        return
+      }
     }
+
+    yield `${indentation}${key}${optional ? '?' : ''}: ${ftm}${allowNull ? ' | null' : ''}`
   }
 }
 
@@ -83,15 +91,15 @@ function isOptional<Context>(field: any, context: string) {
   return fi.optional || (fi.optionalIn && fi.optionalIn.includes(context))
 }
 
-function* outputFieldFormat(field: Field, context: string, indentation: string) {
+function outputFieldFormat(field: Field, context: string, indentation: string) {
   if (isFullDeclaration(field)) {
     if (field.enum) {
-      yield field.enum.map((f) => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
+      return field.enum.map((f) => "'" + f.replace(/'/g, "\\'") + "'").join(' | ')
     } else {
-      yield asTSType(field, context, indentation)
+      return asTSType(field, context, indentation)
     }
   } else {
-    yield asTSType({ type: field }, context, indentation)
+    return asTSType({ type: field }, context, indentation)
   }
 }
 
