@@ -23,7 +23,7 @@
     "gulp-clean": "0.4.0",
     "gulp-typescript": "5.0.1",
     "import-sort-style-module": "6.0.0",
-    "jest": "27.0.6",
+    "jest": "27.1.0",
     "mongoose": "5.13.8",
     "nodemon": "2.0.12",
     "npm-release": "1.0.0",
