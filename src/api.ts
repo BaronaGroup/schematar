@@ -8,6 +8,7 @@ import { generateHash } from './hash-schema'
 import jsonSchemaOutput, { JSONSchemaOptions } from './json-schema-output'
 import { karhu } from './karhu'
 import mongooseOutput, { MongooseOutputOptions } from './mongoose-output'
+import { setMongoose as setMongooseImpl } from './mongoose-storage'
 import nowToken from './now'
 import { ObjectId as ObjectIdType } from './object-id'
 import { Schema as SchemaType } from './schema'
@@ -136,4 +137,8 @@ function pickNameFromFilename(filename: string) {
 
 export function hashSchema(schema: Schema | ComplexType) {
   return generateHash(schema)
+}
+
+export function setMongoose(mongoose: any) {
+  setMongooseImpl(mongoose)
 }

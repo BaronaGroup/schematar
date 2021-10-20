@@ -1,4 +1,5 @@
 import Complex from './complex'
+import { getMongoose } from './mongoose-storage'
 import now from './now'
 import { ObjectId } from './object-id'
 import { Field, FieldInfo, Schema, SchemaFields, isSchema } from './schema'
@@ -86,9 +87,10 @@ function outputFieldFormat(field: Field, options: MongooseOutputOptions): Mongoo
   }
 }
 
-function asMongooseTypeBase<Context>(field: FieldInfo, options: MongooseOutputOptions): MongooseTypeBase {
+function asMongooseTypeBase(field: FieldInfo, options: MongooseOutputOptions): MongooseTypeBase {
   const { type } = field
-  if (type === ObjectId) return { type: require('mongoose').Schema.Types.ObjectId }
+
+  if (type === ObjectId) return { type: getMongooseImpl().Schema.Types.ObjectId }
   if (type === String) return { type }
   if (type === Boolean) return { type }
   if (type === Number) return { type }
@@ -126,4 +128,15 @@ function omitUndefined<T extends object>(obj: T): T {
     if (value !== undefined) out[key] = value
   }
   return out as T
+}
+
+function getMongooseImpl() {
+  const mongoose = getMongoose()
+  if (!mongoose) {
+    throw new Error(
+      "Schematar: mongoose not passed to schematar. You have to do something along the lines of\nimport * as mongoose from 'mongoose'\nimport { setMongoose } from 'schematar'\nsetMongoose(mongoose)"
+    )
+  }
+
+  return mongoose
 }
