@@ -114,12 +114,8 @@ function asMongooseTypeBase(field: FieldInfo, options: MongooseOutputOptions): M
   throw new Error('Unsupported type for mongoose schema ' + JSON.stringify(type))
 }
 
-function isFullDeclaration<Context>(field: Field): field is FieldInfo {
+function isFullDeclaration(field: Field): field is FieldInfo {
   return !!(field as any).type
-}
-
-function* yieldMany<T>(items: T[]): IterableIterator<T> {
-  for (const item of items) yield item
 }
 
 function omitUndefined<T extends object>(obj: T): T {

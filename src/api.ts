@@ -38,13 +38,13 @@ export function createMongooseSchema(
 export function createTypescriptInterfaceDefinition(
   exportName: string,
   schema: Schema | ComplexType,
-  context: string = 'typescript',
+  context = 'typescript',
   options: TSOptions = {}
 ) {
   return tsOutput(exportName, schema, context, options)
 }
 
-export function createJSONSchema(schema: Schema, context: string = 'jsonschema', options: JSONSchemaOptions = {}) {
+export function createJSONSchema(schema: Schema, context = 'jsonschema', options: JSONSchemaOptions = {}) {
   return jsonSchemaOutput(schema, context, options)
 }
 
@@ -84,9 +84,10 @@ interface SchemaFile {
 export async function createTSInterfaceFile(
   filename: string,
   outputPath: string,
-  logCreations: boolean = true,
+  logCreations = true,
   formatOutputFilename = defaultOutputFilenameFormatter
 ) {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   const schemaFile = require(path.resolve(filename)) as SchemaFile
   const topLevelSchema = schemaFile.schema || schemaFile.default
   const topLevelName = schemaFile.name || pickNameFromFilename(filename)
@@ -131,7 +132,7 @@ function defaultOutputFilenameFormatter(inputFilename: string) {
 function pickNameFromFilename(filename: string) {
   const fn = path.basename(filename, path.extname(filename))
   return (fn[0].toUpperCase() + fn.substring(1))
-    .replace(/[\-_][a-z]/g, (match) => match[1].toUpperCase())
+    .replace(/[-_][a-z]/g, (match) => match[1].toUpperCase())
     .replace(/[^a-zA-Z0-9]/g, '')
 }
 

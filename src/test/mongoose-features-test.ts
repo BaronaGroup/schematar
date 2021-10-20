@@ -133,7 +133,7 @@ describe('mongoose-features', function () {
           },
         },
         {
-          transformer(input, path) {
+          transformer(input) {
             return (
               input.type && {
                 ...input,
@@ -159,7 +159,7 @@ describe('mongoose-features', function () {
           },
         },
         {
-          transformer(input, path) {
+          transformer(input) {
             return (
               input.type && {
                 ...input,

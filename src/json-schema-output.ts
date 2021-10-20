@@ -1,6 +1,6 @@
 import Complex from './complex'
 import { ObjectId } from './object-id'
-import { Field, FieldInfo, PlainType, Schema, SchemaFields, isSchema } from './schema'
+import { Field, FieldInfo, Schema, SchemaFields, isSchema } from './schema'
 
 const datePatternTmp = /^\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\d(Z|[+-]\d\d:?\d\d)$/.toString()
 const datePattern = datePatternTmp.substring(1, datePatternTmp.length - 1)
@@ -20,6 +20,7 @@ interface JSONSchemaStringProperty {
   enum?: string[]
 }
 
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface JSONSchemaAnyProperty {}
 
 interface JSONSchemaMultiTypeProperty {
@@ -57,8 +58,7 @@ export interface JSONSchemaOptions {
   schemaId?: string
 }
 
-export default function (schema: Schema, context: string = 'jsonschema', options: JSONSchemaOptions = {}) {
-  const output: string[] = []
+export default function (schema: Schema, context = 'jsonschema', options: JSONSchemaOptions = {}) {
   const base: JSONSchema = {
     $id: options.schemaId,
     type: 'object',
@@ -153,10 +153,6 @@ function asJSONSchemaProperty(field: FieldInfo, context: string, options: JSONSc
   throw new Error('Unsupported type for json-schema ' + type)
 }
 
-function isFullDeclaration<Context>(field: Field): field is FieldInfo {
+function isFullDeclaration(field: Field): field is FieldInfo {
   return !!(field as any).type
-}
-
-function* yieldMany<T>(items: T[]): IterableIterator<T> {
-  for (const item of items) yield item
 }

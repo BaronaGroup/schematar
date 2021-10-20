@@ -42,7 +42,7 @@ export interface SchemaFields {
   [name: string]: Field
 }
 
-export function isFullDeclaration<Context>(field: Field): field is FieldInfo {
+export function isFullDeclaration(field: Field): field is FieldInfo {
   return !!(field as any).type
 }
 

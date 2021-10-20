@@ -1,16 +1,7 @@
 import Complex from './complex'
 import { generateHash } from './hash-schema'
 import { ObjectId } from './object-id'
-import {
-  DefaultContext,
-  Field,
-  FieldInfo,
-  PlainType,
-  Schema,
-  SchemaFields,
-  isFullDeclaration,
-  isSchema,
-} from './schema'
+import { Field, FieldInfo, Schema, SchemaFields, isFullDeclaration, isSchema } from './schema'
 
 export interface TSOptions {
   omitExtraExports?: boolean
@@ -21,7 +12,7 @@ export interface TSOptions {
 export default function (
   exportName: string,
   schema: Schema | Complex,
-  context: string = 'typescript',
+  context = 'typescript',
   options: TSOptions = {}
 ) {
   const output: string[] = []
@@ -77,7 +68,7 @@ export function* outputFields(fields: SchemaFields, context: string, indentation
   }
 }
 
-function isOptional<Context>(field: any, context: string) {
+function isOptional(field: any, context: string) {
   if (!field.type) return false
   const fi = field as FieldInfo
   return fi.optional || (fi.optionalIn && fi.optionalIn.includes(context))
@@ -98,7 +89,7 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
   }
 }
 
-function asTSType<Context>(field: FieldInfo, context: string, indentation: string): string {
+function asTSType(field: FieldInfo, context: string, indentation: string): string {
   const { type } = field
   if (type === ObjectId) return 'IDType'
   if (type === String) return 'string'

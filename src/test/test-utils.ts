@@ -1,5 +1,5 @@
 import { createJSONSchema, createMongooseSchema, createTypescriptInterfaceDefinition } from '../api'
-import { JSONSchemaOptions, JSONSchemaProperty } from '../json-schema-output'
+import { JSONSchemaOptions } from '../json-schema-output'
 import { Schema } from '../schema'
 import { TSOptions } from '../ts-output'
 

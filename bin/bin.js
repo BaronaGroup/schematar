@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../dist/app')
+/* eslint-env node */
+require('schematar/dist/app')

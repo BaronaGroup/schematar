@@ -1,11 +1,9 @@
 import Complex from './complex'
 import now from './now'
 import { ObjectId } from './object-id'
-import { DefaultContext, Field, FieldInfo, PlainType, Schema, SchemaFields } from './schema'
+import { Field, FieldInfo, PlainType, Schema, SchemaFields } from './schema'
 
-export const filePrefix = `import mongoose from 'mongoose'\n// @ts-ignore -- ObjectId may or may not be used \nconst ObjectId = mongoose.Schema.Types.ObjectId\n\n`
-
-export default function (exportName: string, schema: Schema, context: string = 'mongoose') {
+export default function (exportName: string, schema: Schema, context = 'mongoose') {
   const output: string[] = []
   output.push(`export const ${exportName} = {`)
   for (const field of outputFields(schema.fields, context, '  ')) output.push(field)
@@ -73,7 +71,7 @@ function* outputFieldFormat(field: Field, context: string, indentation: string) 
   }
 }
 
-function asMongooseType<Context>(type: PlainType, context: string, indentation: string): string {
+function asMongooseType(type: PlainType, context: string, indentation: string): string {
   if (type === ObjectId) return 'ObjectId'
   if (type === String) return 'String'
   if (type === Boolean) return 'Boolean'
@@ -91,7 +89,7 @@ function asMongooseType<Context>(type: PlainType, context: string, indentation: 
   throw new Error('Unsupported type for mongoose schema ' + type)
 }
 
-function isFullDeclaration<Context>(field: Field): field is FieldInfo {
+function isFullDeclaration(field: Field): field is FieldInfo {
   return !!(field as any).type
 }
 

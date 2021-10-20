@@ -2,7 +2,7 @@ import crypto from 'crypto'
 
 import Complex from './complex'
 import { ObjectId } from './object-id'
-import { Field, PlainType, Schema, SchemaFields, isFullDeclaration, isSchema } from './schema'
+import { PlainType, Schema, SchemaFields, isFullDeclaration, isSchema } from './schema'
 
 export function generateHash(schema: Schema | Complex): string {
   if (Complex.isComplex(schema)) {

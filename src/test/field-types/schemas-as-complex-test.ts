@@ -1,6 +1,4 @@
-import Complex from '../../complex'
-import { JSONSchemaProperty } from '../../json-schema-output'
-import { FieldInfo, Schema } from '../../schema'
+import { Schema } from '../../schema'
 import { testJSONSchema, testMongooseField, testTypescriptInterface } from '../test-utils'
 
 describe('schema-as-complex-test', function () {

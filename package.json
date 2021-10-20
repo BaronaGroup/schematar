@@ -1,6 +1,6 @@
 {
   "name": "schematar",
-  "version": "1.12.0",
+  "version": "2.0.0-rc1",
   "description": "Creates mongoose schemas, typescript interfaces and json schemas from a single schema",
   "homepage": "https://github.com/BaronaGroup/schematar",
   "repository": {
@@ -19,6 +19,9 @@
     "@types/mongodb": "3.6.20",
     "@types/mongoose": "5.11.96",
     "@types/node": "14.17.19",
+    "@typescript-eslint/eslint-plugin": "5.1.0",
+    "@typescript-eslint/parser": "5.1.0",
+    "eslint": "8.0.1",
     "gulp": "4.0.2",
     "gulp-clean": "0.4.0",
     "gulp-typescript": "5.0.1",
@@ -27,6 +30,8 @@
     "mongoose": "5.13.9",
     "nodemon": "2.0.13",
     "npm-release": "1.0.0",
+    "pre-commit": "1.2.2",
+    "pre-commit-eslint-and-prettier": "1.0.0-rc1",
     "prettier": "2.4.1",
     "prettier-plugin-import-sort": "0.0.7",
     "ts-jest": "27.0.5",
@@ -42,12 +47,13 @@
   },
   "scripts": {
     "build": "gulp",
-    "tslint": "tslint --project tsconfig.json",
-    "lint": "npm run tslint",
+    "eslint": "eslint --max-warnings=0 .",
+    "lint": "npm run eslint",
     "test": "jest",
     "prepare": "npm run build",
     "release": "npm test && npm-release",
-    "prettier": "npx prettier --write $(find src -name '*.ts')"
+    "prettier": "npx prettier --write $(find src -name '*.ts')",
+    "pre-commit-eslint-and-prettier": "pre-commit-eslint-and-prettier"
   },
   "main": "dist/api.js",
   "bin": "bin/bin.js",
@@ -87,5 +93,8 @@
     "src",
     "dist",
     "bin"
+  ],
+  "pre-commit": [
+    "pre-commit-eslint-and-prettier"
   ]
 }
