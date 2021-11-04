@@ -7,6 +7,7 @@ import {
 import { MongooseOutputOptions, MongooseTypeBase, outputFields as outputMongooseFields } from './mongoose-output'
 import { FieldInfo, SchemaFields } from './schema'
 import { outputFields as outputTSFields } from './ts-output'
+import { TypeGraphQLOptions } from './typeGraphQLOutput'
 
 export const COMPLEX_IDENTITY = 'complex-30753295-84f7-486b-bc21-b224461736ee'
 

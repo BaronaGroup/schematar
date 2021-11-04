@@ -32,10 +32,16 @@ export interface FieldInfo {
   optionalIn?: string[]
   enum?: string[]
   mongoose?: any
+  /** @deprecated */
   mongooseDefault?: any
+  /** @deprecated */
   mongooseRef?: string
+  /** @deprecated */
   mongooseExpires?: string
   jsonSchema?: any
+  typeGraphQL?: {
+    specialType: 'int' | 'float'
+  }
 }
 
 export interface SchemaFields {
