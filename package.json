@@ -27,7 +27,7 @@
     "mongoose": "5.13.13",
     "nodemon": "2.0.15",
     "npm-release": "1.0.0",
-    "prettier": "2.4.1",
+    "prettier": "2.5.0",
     "prettier-plugin-import-sort": "0.0.7",
     "ts-jest": "27.0.7",
     "ts-node": "10.4.0",
