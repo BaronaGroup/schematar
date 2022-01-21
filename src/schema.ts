@@ -36,6 +36,7 @@ export interface FieldInfo {
   mongooseRef?: string
   mongooseExpires?: string
   jsonSchema?: any
+  jsdoc?: string | string[]
 }
 
 export interface SchemaFields {

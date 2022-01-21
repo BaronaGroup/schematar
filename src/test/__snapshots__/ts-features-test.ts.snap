@@ -44,6 +44,104 @@ export type TestInterfaceFluid = TestInterfaceBase<string | ObjectId, string | D
 export const hashField = '5d3861b32891d91c94cafb81aa1f821ae442e516d406e1e3bea47f6cb312b11f'"
 `;
 
+exports[`ts-features jsdoc a full jsdoc comment 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+   * /**
+   * This is a perfectly fine way to do it as well
+   * @deprecated
+   */
+  myField: string
+}"
+`;
+
+exports[`ts-features jsdoc a list of jsdoc entries 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  /**
+   * Description
+   * 
+   * @deprecated
+   */
+  myField: string
+}"
+`;
+
+exports[`ts-features jsdoc a list of jsdoc entries with asterisks 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  /**
+   * Description
+   *
+   * @deprecated
+   */
+  myField: string
+}"
+`;
+
+exports[`ts-features jsdoc a simple comment 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  /**
+   * This is just a comment.
+   */
+  myField: string
+}"
+`;
+
+exports[`ts-features jsdoc an array of jsdoc entries 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  /**
+   * comment
+   * @deprecated
+   * @auth required
+   */
+  myField: string
+}"
+`;
+
+exports[`ts-features jsdoc an array of jsdoc entries with asterisks 1`] = `
+"// Generated file, do not edit!
+
+// tslint:disable
+/* eslint-disable */
+// @ts-ignore -- ignore possibly unused type parameters
+export interface TestInterfaceBase<IDType, DateType>
+{
+  /**
+   * comment
+   * @deprecated
+   */
+  myField: string
+}"
+`;
+
 exports[`ts-features omitExtraExports (false) 1`] = `
 "// Generated file, do not edit!
 

@@ -59,6 +59,10 @@ export function* outputFields(fields: SchemaFields, context: string, indentation
     const allowNull = (field as any).allowNull
     if (allowNull && !optional) throw new Error('allowNull can only be used on optional fields')
 
+    if (isFullDeclaration(field) && field.jsdoc) {
+      yield* generateJSDoc(field.jsdoc, indentation)
+    }
+
     if (ftm.length === 1) {
       yield `${indentation}${key}${optional ? '?' : ''}: ${ftm[0]}${allowNull ? ' | null' : ''}`
     } else {
@@ -115,4 +119,21 @@ function asTSType(field: FieldInfo, context: string, indentation: string): strin
 
 function* yieldMany<T>(items: T[]): IterableIterator<T> {
   for (const item of items) yield item
+}
+
+function* generateJSDoc(data: string | string[], indentation: string) {
+  const lines = typeof data === 'string' ? data.trim().split('\n') : data
+  const trimmedLines = lines.map((line) => line.trim())
+  if (!trimmedLines[0].includes('/**')) {
+    yield `${indentation}/**`
+  }
+
+  for (const line of trimmedLines) {
+    const prefix = `${indentation}${line.startsWith('*') ? ' ' : ' * '}`
+    yield `${prefix}${line}`
+  }
+
+  if (!trimmedLines[trimmedLines.length - 1].includes('*/')) {
+    yield ` ${indentation}*/`
+  }
 }
