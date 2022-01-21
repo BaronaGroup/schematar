@@ -1,3 +1,20 @@
+# 2.1.0
+
+- A field "jsdoc" is added to fields. It accepts either a string, or an array of strings that represent lines.
+  This is used to add jsdoc comments to the field in the typescript output.
+
+# 2.0.0
+
+- Mongoose is no longer included as a regular or peer dependency as it in many cases is not even used.
+  If you do need to do mongoose output, you have to call `setMongoose` from the package 
+  
+
+    import { setMongoose } from 'schematar'
+    import * as mongoose from 'mongoose'
+    
+    setMongoose(mongoose)
+
+
 # 1.12.0
 
 - Support arrays of an enum
