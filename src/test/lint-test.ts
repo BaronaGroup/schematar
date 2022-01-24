@@ -1,10 +1,10 @@
 import childProcess from 'child_process'
 
 describe('lint-test', function () {
-  it('tslint', function () {
+  it('lint', function () {
     jest.setTimeout(30000)
     return new Promise<void>((resolve, reject) =>
-      childProcess.exec('npm run tslint', (err, stdout, stderr) => {
+      childProcess.exec('npm run lint', (err, stdout, stderr) => {
         if (err) {
           err.message += '\n\n' + stdout.toString() + '\n\n' + stderr.toString()
           return reject(err)
