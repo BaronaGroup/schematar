@@ -27,7 +27,7 @@
     "gulp-typescript": "5.0.1",
     "import-sort-style-module": "6.0.0",
     "jest": "27.4.7",
-    "mongoose": "6.1.10",
+    "mongoose": "6.2.0",
     "nodemon": "2.0.15",
     "npm-release": "1.0.0",
     "pre-commit": "1.2.2",
