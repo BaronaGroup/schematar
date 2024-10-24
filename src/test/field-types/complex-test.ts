@@ -87,7 +87,9 @@ describe('complex-test', function () {
 
       let asserts: string[] = []
 
-      beforeEach(() => (asserts = []))
+      beforeEach(() => {
+        asserts = []
+      })
 
       class DataComplex extends Complex {
         constructor() {
