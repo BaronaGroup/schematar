@@ -12,6 +12,7 @@
     "name": "Tapani Haka"
   },
   "devDependencies": {
+    "@types/glob": "8.1.0",
     "@types/gulp": "4.0.10",
     "@types/gulp-typescript": "2.13.0",
     "@types/jest": "27.0.0",
