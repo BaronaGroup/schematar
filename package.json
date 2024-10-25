@@ -27,7 +27,7 @@
     "import-sort-style-module": "6.0.0",
     "jest": "27.5.1",
     "mongoose": "8.7.2",
-    "nodemon": "2.0.22",
+    "nodemon": "3.1.7",
     "npm-release": "1.0.0",
     "pre-commit": "1.2.2",
     "pre-commit-eslint-and-prettier": "1.0.0",
