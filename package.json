@@ -31,7 +31,7 @@
     "npm-release": "1.0.0",
     "pre-commit": "1.2.2",
     "pre-commit-eslint-and-prettier": "1.0.0",
-    "prettier": "2.8.8",
+    "prettier": "3.3.3",
     "prettier-plugin-import-sort": "0.0.7",
     "ts-jest": "27.1.5",
     "ts-node": "10.9.2",
