@@ -26,7 +26,7 @@ describe('command-line-tool-test', function () {
 
   async function prepareOutputDirectory(dir: string) {
     if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir)
+      fs.mkdirSync(dir, { recursive: true })
     }
     for (const file of fs.readdirSync(dir)) {
       const ffn = `${dir}/${file}`
