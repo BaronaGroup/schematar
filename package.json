@@ -16,7 +16,7 @@
     "@types/gulp": "4.0.18",
     "@types/gulp-typescript": "2.13.0",
     "@types/jest": "27.5.2",
-    "@types/mkdirp": "1.0.2",
+    "@types/mkdirp": "2.0.0",
     "@types/node": "22.13.4",
     "@typescript-eslint/eslint-plugin": "5.62.0",
     "@typescript-eslint/parser": "5.62.0",
